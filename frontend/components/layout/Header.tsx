@@ -64,7 +64,7 @@ export default function Header() {
             <span className="hidden md:inline text-slate-300">Leading Manufacturer &amp; Supplier of Earthing Solutions</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-brand-red font-semibold tracking-wider">"{motto}"</span>
+            <span className="text-brand-red font-semibold tracking-wider">&ldquo;{motto}&rdquo;</span>
             <a
               href={`tel:${primaryPhone.replace(/\s+/g, '')}`}
               className="hidden lg:flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"

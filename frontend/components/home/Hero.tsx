@@ -70,7 +70,7 @@ export default function Hero() {
       {/* Quote in ONE SINGLE LINE in the Bottom Right Corner matching user request */}
       <div className="absolute bottom-6 sm:bottom-10 right-4 sm:right-8 z-20 pointer-events-none">
         <p className="text-white text-lg sm:text-2xl font-bold italic tracking-wide text-right shadow-sm whitespace-nowrap bg-slate-950/40 px-4 py-2 rounded-lg border border-white/10 backdrop-blur-xs">
-          "Grounded for a Safer World"
+          &ldquo;Grounded for a Safer World&rdquo;
         </p>
       </div>
 

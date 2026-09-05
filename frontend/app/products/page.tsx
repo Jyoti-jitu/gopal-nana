@@ -35,6 +35,7 @@ export default function ProductsPage() {
       setLoading(false);
     }
     loadData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory]);
 
   const filteredProducts = products.filter((product) => {
