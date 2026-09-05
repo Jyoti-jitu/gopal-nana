@@ -3,10 +3,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from app.core.config import settings
-from app.core.exceptions import APIException, api_exception_handler, global_exception_handler
+from app.core.exceptions import APIException, api_exception_handler, http_exception_handler, global_exception_handler
 from app.database.mongodb import connect_to_mongo, close_mongo_connection, db_manager, get_database
 from app.database.indexes import create_indexes
 
@@ -57,17 +58,19 @@ app = FastAPI(
 
 # Exception Handlers
 app.add_exception_handler(APIException, api_exception_handler)
+app.add_exception_handler(StarletteHTTPException, http_exception_handler)
 app.add_exception_handler(Exception, global_exception_handler)
 
 # CORS Middleware
-if settings.CORS_ORIGINS:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.CORS_ORIGINS,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+origins = settings.CORS_ORIGINS if settings.CORS_ORIGINS else ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"]
+)
 
 # Static Media Server
 os.makedirs(settings.MEDIA_UPLOAD_DIR, exist_ok=True)

@@ -1,5 +1,6 @@
 from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 import logging
 
 class APIException(HTTPException):
@@ -51,6 +52,18 @@ async def api_exception_handler(request: Request, exc: APIException):
                 "code": exc.code,
                 "message": exc.message,
                 "details": exc.details
+            }
+        }
+    )
+
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "success": False,
+            "error": {
+                "code": f"HTTP_{exc.status_code}",
+                "message": str(exc.detail)
             }
         }
     )

@@ -45,7 +45,7 @@ async def seed():
     # 2. Seed Categories
     categories_data = [
         {"name": "Earthing Electrodes", "slug": "earthing-electrodes", "description": "High conductivity GI, Copper Bonded & Pure Copper Earthing Electrodes", "display_order": 1},
-        {"name": "Pit Covers & Accessories", "slug": "pit-covers-accessories", "description": "Heavy duty FRP, Polypropylene & Cast Iron Earth Pit Covers", "display_order": 2},
+        {"name": "Pit Covers & Accessories", "slug": "pit-covers", "description": "Heavy duty FRP, Polypropylene & Cast Iron Earth Pit Covers", "display_order": 2},
         {"name": "Ground Enhancement", "slug": "ground-enhancement", "description": "NABL tested backfill earth enhancement compounds", "display_order": 3},
         {"name": "Lightning Protection", "slug": "lightning-protection", "description": "Early Streamer Emission (ESE) Lightning Arresters compliant with NFC 17-102", "display_order": 4}
     ]
@@ -69,67 +69,71 @@ async def seed():
             "name": "GI Earthing Electrode",
             "slug": "gi-earthing-electrode",
             "category_slug": "earthing-electrodes",
-            "short_description": "Galvanized Iron earthing electrode with anti-corrosive coating for low resistivity soil grounding.",
-            "description": "Forecast Earthings GI Earthing Electrodes are designed with hot-dip galvanized steel pipes filled with high-conductivity crystalline compound to ensure rapid fault current dissipation and long operational life.",
+            "tag": "High Durability",
+            "short_description": "Hot dip galvanized pipe-in-pipe earthing electrode designed for rapid fault current dissipation and long service life.",
+            "description": "Forecast Earthings GI Earthing Electrodes are manufactured using prime quality steel pipes treated with heavy hot-dip galvanization. The dual-pipe (pipe-in-pipe) technology filled with primary conductive crystalline mixture ensures ultra-fast fault current dissipation into the earth, preventing electrical hazards in residential, commercial, and industrial facilities.",
             "features": [
-                "Hot-dip galvanized outer pipe for high corrosion resistance",
-                "High current carrying capacity with uniform inner conductor strip",
-                "Maintenance-free design suitable for all soil conditions",
-                "Tested as per IS 3043 grounding standards"
+                "Hot dip galvanized for maximum corrosion protection",
+                "Fast fault current dissipation capability",
+                "Low maintenance with long-lasting ground stability",
+                "Easy and fast installation in diverse soil conditions",
+                "Customized moisture booster chemical bag included",
+                "Engineered per Bureau of Indian Standards (BIS) norms"
             ],
             "specifications": [
-                {
-                    "label": "40 FEGI",
-                    "values": {
-                        "length": "1, 2 & 3 m",
-                        "terminal_size": "40 x 6 mm",
-                        "inner_strip": "25 x 3 mm GI",
-                        "outer_pipe": "48 mm GI Pipe"
-                    }
-                },
-                {
-                    "label": "50 FEGI",
-                    "values": {
-                        "length": "2 & 3 m",
-                        "terminal_size": "50 x 6 mm",
-                        "inner_strip": "30 x 6 mm GI",
-                        "outer_pipe": "60 mm GI Pipe"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "1-FEGI"}},
+                {"label": "Material", "values": {"value": "Hot Dip Galvanized Steel"}},
+                {"label": "Electrode Design", "values": {"value": "Pipe-in-Pipe Crystalline Technology"}},
+                {"label": "Standard Lengths", "values": {"value": "1.0m, 2.0m, 3.0m"}},
+                {"label": "Outer Pipe Diameter", "values": {"value": "48mm / 50mm / 80mm"}},
+                {"label": "Inner Strip / Pipe Size", "values": {"value": "25x3 mm / 32x6 mm"}},
+                {"label": "Coating Thickness", "values": {"value": "80-100 Microns (Hot Dip)"}},
+                {"label": "Soil Suitability", "values": {"value": "All Normal, Sandy & Rocky Soils"}}
             ],
-            "images": [{"url": "/images/products/gi-electrode.png", "alt": "GI Earthing Electrode"}],
-            "applications": ["Substations", "Commercial Buildings", "Solar Power Plants", "Telecom Towers"],
+            "images": [{"url": "/images/products/gi-earthing-electrode.svg", "alt": "GI Earthing Electrode"}],
+            "applications": [
+                "Substation and transformer earthing",
+                "Residential & commercial building safety",
+                "Industrial machinery and LT/HT panels",
+                "Telecommunication towers and data centers"
+            ],
             "featured": True,
             "display_order": 1,
             "status": "published",
-            "seo": {"title": "GI Earthing Electrode | Forecast Earthings", "description": "High performance GI earthing electrode for industrial safety."}
+            "seo": {"title": "GI Earthing Electrode | Forecast Earthings", "description": "Hot dip galvanized pipe-in-pipe earthing electrode."}
         },
         {
             "code": "2-FECB",
             "name": "Copper Bonded Earthing Electrode",
             "slug": "copper-bonded-earthing-electrode",
             "category_slug": "earthing-electrodes",
-            "short_description": "High tensile steel core electrode bonded with 250 micron molecular pure copper coating.",
-            "description": "Our Copper Bonded Earthing Electrodes feature molecularly bonded 99.9% pure copper over high tensile low carbon steel core, preventing cracking or slippage during driving.",
+            "tag": "Popular Choice",
+            "short_description": "Molecularly bonded copper earthing electrode delivering superior conductivity, mechanical strength, and extended operational lifespan.",
+            "description": "Engineered with high tensile low carbon steel core molecularly bonded with 99.9% pure electrolytic copper, the Forecast Earthings Copper Bonded Earthing Electrode offers exceptional current dissipation and anti-corrosive performance. Perfect for environments demanding low soil resistance and high reliability.",
             "features": [
-                "Minimum 250 micron copper bonding thickness",
-                "Molecular bonding eliminates moisture entry between steel and copper",
-                "25+ years expected service life in corrosive soils",
-                "Complies with IEEE 80 and IEC 62561 standards"
+                "Molecular copper bonding guarantees no slipping or peeling",
+                "High tensile strength steel core allows deep driving",
+                "Enhanced electrical conductivity for lightning & fault currents",
+                "Exceptional longevity in acidic and alkaline soils",
+                "Maintenance-free design suitable for critical infrastructure"
             ],
             "specifications": [
-                {
-                    "label": "17.2 FECB",
-                    "values": {
-                        "length": "2 & 3 m",
-                        "copper_bonding": "250 microns",
-                        "rod_diameter": "17.2 mm",
-                        "terminal_type": "Threaded / Solid"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "2-FECB"}},
+                {"label": "Core Material", "values": {"value": "High Tensile Low Carbon Steel"}},
+                {"label": "Bonding Material", "values": {"value": "99.9% Pure Electrolytic Copper"}},
+                {"label": "Copper Layer Thickness", "values": {"value": "250 Microns (0.254mm)"}},
+                {"label": "Outer Diameter", "values": {"value": "14.2mm, 17.2mm, 25mm, 48mm, 50mm"}},
+                {"label": "Standard Lengths", "values": {"value": "2.0m, 3.0m"}},
+                {"label": "Current Capacity", "values": {"value": "High Fault Current Withstanding"}},
+                {"label": "Service Life", "values": {"value": "Designed for 30+ Years"}}
             ],
-            "images": [{"url": "/images/products/copper-bonded.png", "alt": "Copper Bonded Earthing Electrode"}],
-            "applications": ["Industrial Plants", "Data Centers", "Transformer Grounding", "Wind Turbines"],
+            "images": [{"url": "/images/products/copper-bonded-electrode.svg", "alt": "Copper Bonded Earthing Electrode"}],
+            "applications": [
+                "Solar PV power plants and wind farms",
+                "Heavy industrial manufacturing units",
+                "Oil & gas refineries",
+                "Railways and metro transit grounding"
+            ],
             "featured": True,
             "display_order": 2,
             "status": "published",
@@ -140,25 +144,31 @@ async def seed():
             "name": "Copper Terminal Earthing Electrode",
             "slug": "copper-terminal-earthing-electrode",
             "category_slug": "earthing-electrodes",
-            "short_description": "Electrode with solid copper terminal connection for zero resistance lug joints.",
-            "description": "Equipped with heavy-duty solid copper terminal top to prevent oxidation and bimetallic corrosion at cable termination points.",
+            "tag": "Heavy Duty",
+            "short_description": "Specially designed earthing electrode featuring a heavy-duty copper terminal plate for robust busbar connection.",
+            "description": "The Forecast Earthings Copper Terminal Earthing Electrode combines a high-performance grounding rod with a precision welded or cold-formed pure copper terminal top plate. This design simplifies conductor clamping and ensures minimum resistance at the connection point.",
             "features": [
-                "Heavy duty solid copper terminal plate",
-                "Seamless pipe design filled with conductive mineral compound",
-                "High fault current withstand capability"
+                "Heavy-duty solid copper terminal head for direct busbar attachment",
+                "High electrical conductivity and minimal contact resistance",
+                "Corrosion-resistant terminal plate for harsh environments",
+                "Factory-filled high conductive crystalline compound",
+                "Simplified connection for multi-strip earthing grid networks"
             ],
             "specifications": [
-                {
-                    "label": "50 FECT",
-                    "values": {
-                        "length": "3 m",
-                        "terminal_size": "50 x 6 mm Pure Copper",
-                        "outer_pipe": "50 mm GI / Copper Coated"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "3-FECT"}},
+                {"label": "Terminal Material", "values": {"value": "Heavy Duty Electrolytic Copper Plate"}},
+                {"label": "Terminal Hole Size", "values": {"value": "12mm / 14mm Dual Bolt Hole"}},
+                {"label": "Rod Diameter", "values": {"value": "50mm / 80mm Pipe Design"}},
+                {"label": "Length", "values": {"value": "2.0m, 3.0m"}},
+                {"label": "Internal Filling", "values": {"value": "High Conduction Crystalline Powder"}},
+                {"label": "Fault Current Rate", "values": {"value": "Up to 50kA for 1 sec"}}
             ],
-            "images": [{"url": "/images/products/copper-terminal.png", "alt": "Copper Terminal Earthing Electrode"}],
-            "applications": ["HT Switchyards", "Refineries", "Railway Electrification"],
+            "images": [{"url": "/images/products/copper-terminal-electrode.svg", "alt": "Copper Terminal Earthing Electrode"}],
+            "applications": [
+                "Power generation and transmission substations",
+                "Heavy industrial motor control centers",
+                "Captive power plants and switchyards"
+            ],
             "featured": False,
             "display_order": 3,
             "status": "published",
@@ -169,25 +179,32 @@ async def seed():
             "name": "Pure Copper Earthing Electrode",
             "slug": "pure-copper-earthing-electrode",
             "category_slug": "earthing-electrodes",
-            "short_description": "100% Electrolytic grade pure copper pipe electrode for ultra-critical installations.",
-            "description": "Manufactured from 99.9% pure electrolytic copper pipes for maximum electrical conductivity and immune to acidic ground environments.",
+            "tag": "Premium Grade",
+            "short_description": "Manufactured from 99.9% pure electrolytic grade copper pipe-in-pipe structure for ultimate electrical conductivity and permanent protection.",
+            "description": "For maximum mission-critical applications where failure is not an option, Forecast Earthings Pure Copper Earthing Electrodes provide unmatched conductivity and lifetime stability. Constructed completely from 99.9% electrolytic grade copper pipes and filled with anti-corrosive chemical matrix, it is the highest tier earthing solution.",
             "features": [
-                "100% Pure Electrolytic Copper Pipe",
-                "Exceptional corrosion resistance and electrical conductivity",
-                "Ideal for chemical plants, hospitals, and defense sites"
+                "Constructed from 99.9% pure electrolytic grade copper",
+                "Supreme electrical conductivity and zero rust formation",
+                "Ultra-fast fault current dissipation to prevent equipment damage",
+                "Zero periodic maintenance required over decades",
+                "Superior performance in high-resistivity and corrosive soils"
             ],
             "specifications": [
-                {
-                    "label": "50 FEPC",
-                    "values": {
-                        "length": "2 & 3 m",
-                        "outer_diameter": "50 mm Pure Copper Pipe",
-                        "inner_strip": "25 x 3 mm Pure Copper Strip"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "4-FEPC"}},
+                {"label": "Material Composition", "values": {"value": "99.9% Pure Electrolytic Grade Copper"}},
+                {"label": "Outer Pipe Size", "values": {"value": "40mm / 50mm / 75mm OD"}},
+                {"label": "Inner Strip Material", "values": {"value": "Pure Copper Strip (25x3mm / 32x6mm)"}},
+                {"label": "Standard Lengths", "values": {"value": "1.0m, 2.0m, 3.0m"}},
+                {"label": "Conductivity", "values": {"value": "100% IACS Standard"}},
+                {"label": "Service Life", "values": {"value": "Permanent / Lifelong"}}
             ],
-            "images": [{"url": "/images/products/pure-copper.png", "alt": "Pure Copper Earthing Electrode"}],
-            "applications": ["Chemical Plants", "Defense Radar Units", "Hospitals", "Research Labs"],
+            "images": [{"url": "/images/products/pure-copper-electrode.svg", "alt": "Pure Copper Earthing Electrode"}],
+            "applications": [
+                "Hospital ICU & medical diagnostic equipment earthing",
+                "Defense, aerospace & radar stations",
+                "Data centers & telecom hubs",
+                "Nuclear & thermal power facilities"
+            ],
             "featured": True,
             "display_order": 4,
             "status": "published",
@@ -198,25 +215,31 @@ async def seed():
             "name": "Copper Bonded 4G Rod",
             "slug": "copper-bonded-4g-rod",
             "category_slug": "earthing-electrodes",
-            "short_description": "Deep driven threaded copper bonded solid steel earth rod system.",
-            "description": "High tensile strength solid steel rod with 250 micron copper bonding and cold rolled threads for deep soil driving without rod breakage.",
+            "tag": "Telecom Specialized",
+            "short_description": "High-tensile copper-bonded solid rod engineered specifically for telecom 4G/5G towers, distribution poles, and compact pits.",
+            "description": "Designed to meet the stringent grounding standards of telecommunication providers, the Forecast Earthings Copper Bonded 4G Rod offers deep soil penetration with cold-rolled steel core and uniform molecular copper jacket. Comes with precision-threaded ends or unthreaded options for deep driving.",
             "features": [
-                "Cold-rolled threads for deep couplings",
-                "High steel tensile strength > 600 N/mm2",
-                "Extends deep into moisture-rich soil layers"
+                "Solid high-carbon steel core for hard ground driving without bending",
+                "Uniform 250 micron copper bonding per IEC/UL standards",
+                "Multiple model variants (Threaded / Pointed / Flat ends)",
+                "High weather and chemical resistance in soil",
+                "Optimized length and diameter for telecom earth pits"
             ],
             "specifications": [
-                {
-                    "label": "19 FECBR",
-                    "values": {
-                        "length": "3 m",
-                        "diameter": "19 mm (3/4 inch)",
-                        "coating": "250 Micron Copper"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "5-FECBR"}},
+                {"label": "Core Metal", "values": {"value": "Cold Drawn Carbon Steel"}},
+                {"label": "Copper Coating", "values": {"value": "250 Micron Molecular Copper"}},
+                {"label": "Rod Diameters", "values": {"value": "14.2mm (5/8\"), 17.2mm (3/4\"), 20mm"}},
+                {"label": "Length Variants", "values": {"value": "1.2m, 2.4m, 3.0m"}},
+                {"label": "Terminal Size", "values": {"value": "M14 / M16 Threaded or Clamp Mount"}},
+                {"label": "Compliance", "values": {"value": "NABL & BIS Tested Standards"}}
             ],
-            "images": [{"url": "/images/products/copper-rod-4g.png", "alt": "Copper Bonded 4G Rod"}],
-            "applications": ["Deep Grounding Pit Systems", "Transmission Towers"],
+            "images": [{"url": "/images/products/copper-bonded-4g-rod.svg", "alt": "Copper Bonded 4G Rod"}],
+            "applications": [
+                "4G / 5G Mobile Base Stations & Telecom Towers",
+                "Distribution transformers & utility poles",
+                "CCTV & Traffic monitoring network grounding"
+            ],
             "featured": False,
             "display_order": 5,
             "status": "published",
@@ -227,24 +250,31 @@ async def seed():
             "name": "Centrifugally Cast Iron Earthing Electrode",
             "slug": "centrifugally-cast-iron-earthing-electrode",
             "category_slug": "earthing-electrodes",
-            "short_description": "Heavy duty cast iron pipe electrode for highly rocky and aggressive terrain.",
-            "description": "Centrifugally cast iron pipe electrodes engineered for extreme physical stress and high ground fault current handling.",
+            "tag": "Heavy Industry",
+            "short_description": "Robust centrifugally cast iron pipe earthing electrode built for LT & HT power system grounding in tough terrain.",
+            "description": "Forecast Earthings Centrifugally Cast Iron Earthing Electrodes are manufactured using centrifugal casting technology, ensuring dense, pore-free grain structure and exceptional resistance against chemical corrosion. Ideal for heavy electrical installations, LT/HT switchyards, and rocky or saline soils.",
             "features": [
-                "Centrifugally cast for void-free uniform wall thickness",
-                "High graphite content provides natural corrosion resistance"
+                "Centrifugally cast iron construction with pore-free structure",
+                "Available for both LT (Low Tension) & HT (High Tension) earthing",
+                "Superior resistance against aggressive chemical and saline soils",
+                "High mechanical durability and high current dissipation capacity",
+                "Complete with top terminal flange and watering funnel attachment"
             ],
             "specifications": [
-                {
-                    "label": "100 FECI",
-                    "values": {
-                        "length": "3 m",
-                        "pipe_diameter": "100 mm CI Pipe",
-                        "flange": "Integrated CI Flange"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "6-FECI"}},
+                {"label": "Type / Grade", "values": {"value": "LT Earthing & HT Earthing Grade"}},
+                {"label": "Manufacturing Process", "values": {"value": "Centrifugal Casting Method"}},
+                {"label": "Pipe Diameter", "values": {"value": "100mm (4\") / 150mm (6\") ID"}},
+                {"label": "Flange Dimension", "values": {"value": "Integrated Cast Iron Top Flange"}},
+                {"label": "Wall Thickness", "values": {"value": "7.5mm - 10mm Heavy Duty Wall"}},
+                {"label": "Standard Length", "values": {"value": "2.5m, 3.0m"}}
             ],
-            "images": [{"url": "/images/products/cast-iron.png", "alt": "Cast Iron Earthing Electrode"}],
-            "applications": ["LT/HT Switchyard Grounding", "Heavy Industrial Plants"],
+            "images": [{"url": "/images/products/cast-iron-electrode.svg", "alt": "Centrifugally Cast Iron Earthing Electrode"}],
+            "applications": [
+                "HT/LT switchyards & sub-station grids",
+                "Heavy engineering factories and steel plants",
+                "Saline coastal zone grounding systems"
+            ],
             "featured": False,
             "display_order": 6,
             "status": "published",
@@ -252,29 +282,34 @@ async def seed():
         },
         {
             "code": "7-FECC",
-            "name": "Earth Pit Covers",
-            "slug": "earth-pit-covers",
-            "category_slug": "pit-covers-accessories",
-            "short_description": "Load-tested FRP, Polypropylene and Cast Iron inspection chambers.",
-            "description": "Heavy-duty inspection chambers designed to protect earthing connections from weathering while allowing easy periodic testing.",
+            "name": "Earth Pit Covers (FRP / Poly / Cast Iron)",
+            "slug": "pit-covers",
+            "category_slug": "pit-covers",
+            "tag": "Protection Enclosure",
+            "short_description": "Heavy-load rated protective earth pit enclosures available in FRP, High-Density Polypropylene, and Cast Iron variants.",
+            "description": "Forecast Earthings Earth Pit Covers provide secure, weatherproof, and traffic-rated protection for earthing electrode termination points. Designed for convenient periodic testing and inspection, these covers prevent debris accumulation while withstanding heavy vehicle wheel loads.",
             "features": [
-                "Load bearing capacity up to 15 Tons (FRP / Cast Iron)",
-                "UV resistant polypropylene / FRP materials",
-                "Factory provided lockable lid design"
+                "Available in FRP (Fiber Reinforced Plastic), Heavy Poly, and Cast Iron (CI)",
+                "High load-bearing capacity suitable for industrial roadways",
+                "UV resistant and weatherproof material composition",
+                "Removable top lid with secure locking options for easy testing access",
+                "Standard dimensions designed for easy installation over 4\" to 8\" holes"
             ],
             "specifications": [
-                {
-                    "label": "Standard Pit Cover",
-                    "values": {
-                        "top_diameter": "300 mm",
-                        "bottom_diameter": "350 mm",
-                        "height": "260 mm",
-                        "load_capacity": "5 to 15 Tons"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "7-FECC"}},
+                {"label": "Material Options", "values": {"value": "FRP / High-Density Poly / Cast Iron"}},
+                {"label": "Load Capacity", "values": {"value": "5 Ton to 15 Ton Rating Options"}},
+                {"label": "Top Diameter", "values": {"value": "250mm - 350mm"}},
+                {"label": "Bottom Diameter", "values": {"value": "330mm - 450mm"}},
+                {"label": "Overall Height", "values": {"value": "260mm - 300mm"}},
+                {"label": "Color Options", "values": {"value": "Industrial Green / Black / Gray"}}
             ],
-            "images": [{"url": "/images/products/pit-cover.png", "alt": "Earth Pit Cover"}],
-            "applications": ["All Grounding Pit Inspection Ports"],
+            "images": [{"url": "/images/products/pit-cover.svg", "alt": "Earth Pit Covers"}],
+            "applications": [
+                "Industrial driveway earth pit protection",
+                "Commercial building perimeter earth inspection chambers",
+                "Substation grid test link enclosures"
+            ],
             "featured": True,
             "display_order": 7,
             "status": "published",
@@ -285,26 +320,32 @@ async def seed():
             "name": "Back Fill Earth Enhancement Compound",
             "slug": "back-fill-earth-enhancement-compound",
             "category_slug": "ground-enhancement",
-            "short_description": "NABL tested thermally stable, non-corrosive, moisture retaining backfill compound.",
-            "description": "Forecast Backfill Compound is a chemically inert, low-resistivity grounding material that absorbs moisture from surrounding soil and maintains low earth resistance without leaching.",
+            "tag": "NABL Tested",
+            "short_description": "NABL-tested ultra-conductive non-toxic ground enhancement material designed to permanently reduce soil resistivity around electrodes.",
+            "description": "Forecast Earthings Advanced Back Fill Earth Enhancement Compound is a specially formulated conductive material designed to lower earth resistance and improve grounding effectiveness in high-resistivity soils. Tested at NABL-accredited laboratories, it expands when hydrated and maintains low resistance over decades without washing away.",
             "features": [
-                "NABL accredited laboratory tested low resistivity (< 0.12 ohm-m)",
-                "Retains moisture up to 300% of its dry weight",
-                "Does not dissolve, wash away, or contaminate groundwater",
-                "Non-corrosive to steel and copper conductors"
+                "Tested and certified at NABL-accredited testing laboratories",
+                "Highly conductive material dramatically reduces soil resistivity",
+                "Non-toxic, environmentally friendly and non-polluting to groundwater",
+                "Maintenance-free — retains moisture naturally without periodic watering",
+                "Does not dissolve, leach, or wash away over time",
+                "Protects earthing rod against soil corrosion"
             ],
             "specifications": [
-                {
-                    "label": "25 KG Bag",
-                    "values": {
-                        "weight": "25 Kg",
-                        "resistivity": "< 0.12 Ohm-m",
-                        "ph_value": "7.0 to 8.5 (Neutral)"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "8-FEEG"}},
+                {"label": "Certification", "values": {"value": "NABL Laboratory Tested & Approved"}},
+                {"label": "Resistivity Value", "values": {"value": "< 0.12 ohm-meter"}},
+                {"label": "Standard Packing", "values": {"value": "25 kg Heavy Duty Moisture-Proof Bags"}},
+                {"label": "pH Range", "values": {"value": "6.8 - 7.5 (Neutral / Non-Corrosive)"}},
+                {"label": "Environmental Safety", "values": {"value": "100% Non-Toxic & Lead/Heavy Metal Free"}},
+                {"label": "Watering Requirement", "values": {"value": "No periodic watering required after initial set"}}
             ],
-            "images": [{"url": "/images/products/backfill-compound.png", "alt": "Earth Enhancement Compound"}],
-            "applications": ["Rocky Terrain", "Sandy Soil", "Substations", "Industrial Grounding"],
+            "images": [{"url": "/images/products/backfill-compound.svg", "alt": "Back Fill Earth Enhancement Compound"}],
+            "applications": [
+                "High resistivity soils (rocky, sandy, dry terrain)",
+                "Substation earth pits and lightning protection grids",
+                "Solar & Wind power project grounding"
+            ],
             "featured": True,
             "display_order": 8,
             "status": "published",
@@ -315,26 +356,35 @@ async def seed():
             "name": "ESE Lightning Arrester",
             "slug": "ese-lightning-arrester",
             "category_slug": "lightning-protection",
-            "short_description": "Early Streamer Emission (ESE) active lightning arrester certified to NFC 17-102.",
-            "description": "Advanced active ESE lightning arrester engineered to provide an early ionization pulse (ΔT = 60 μs), capturing lightning strikes well before standard passive air terminals.",
+            "tag": "NFC 17-102 Tested",
+            "short_description": "Non-electronic Early Streamer Emission (ESE) lightning arrester crafted from 304L stainless steel per NFC 17-102 (2011) standards.",
+            "description": "The Forecast Earthings ESE Lightning Arrester (Early Streamer Emission) delivers advanced, long-range external lightning protection for large structures, commercial complexes, and industrial plants. Built from premium 304L stainless steel, it triggers an early upward streamer (ΔT = 60 μs) to safely intercept lightning discharges before they hit the structure.",
             "features": [
-                "Complies with French National Standard NFC 17-102 (2011)",
-                "Early streamer emission time ΔT = 60 μs",
-                "304 Grade Stainless Steel weather-proof casing",
-                "Protection radius up to 107 meters (Level IV)"
+                "Non-electronic ESE technology — fully autonomous operation",
+                "Tested in compliance with NFC 17-102 (2011) international standards",
+                "Emission advance time: ΔT = 60 μs for wide protection radius",
+                "High lightning current tested capability (100kA+ 10/350 μs curve)",
+                "Requires no battery, external electrical power, or solar panel",
+                "Constructed from corrosion-resistant 304L grade stainless steel",
+                "Compatible with standard copper/GI down-conductor tapes and cables"
             ],
             "specifications": [
-                {
-                    "label": "FELA 60",
-                    "values": {
-                        "early_streamer_time": "60 microseconds",
-                        "material": "Stainless Steel 304 / 316",
-                        "protection_radius": "Up to 107m at h=5m"
-                    }
-                }
+                {"label": "Product Code", "values": {"value": "9-FELA"}},
+                {"label": "Technology", "values": {"value": "Early Streamer Emission (ESE) Non-Electronic"}},
+                {"label": "Standard Reference", "values": {"value": "NFC 17-102 (2011) & IEC 62305"}},
+                {"label": "Advance Trigger Time (ΔT)", "values": {"value": "60 Microseconds (60 μs)"}},
+                {"label": "Material Construction", "values": {"value": "Grade 304L Stainless Steel"}},
+                {"label": "Power Source", "values": {"value": "Self-Energizing (Atmosphere Electric Field)"}},
+                {"label": "Protection Radius", "values": {"value": "Up to 107 Meters (Level IV @ h=5m)"}},
+                {"label": "Down Conductor Connection", "values": {"value": "Suitable for M16 / 30x3mm Conductor Tape"}}
             ],
-            "images": [{"url": "/images/products/lightning-arrester.png", "alt": "ESE Lightning Arrester"}],
-            "applications": ["High Rise Buildings", "Industrial Factories", "Solar Parks", "Airports"],
+            "images": [{"url": "/images/products/ese-lightning-arrester.svg", "alt": "ESE Lightning Arrester"}],
+            "applications": [
+                "High-rise commercial and residential towers",
+                "Industrial manufacturing plants and warehouses",
+                "Airports, stadiums, and educational campuses",
+                "Solar power parks and hazardous storage facilities"
+            ],
             "featured": True,
             "display_order": 9,
             "status": "published",
