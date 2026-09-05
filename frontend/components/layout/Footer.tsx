@@ -1,15 +1,39 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getCloudinaryUrl } from "@/lib/cloudinary";
 import { Phone, Mail, MapPin, Linkedin, Facebook, Youtube } from "lucide-react";
+import { fetchSettings } from "@/lib/api";
 
 export default function Footer() {
+  const [settings, setSettings] = useState<any>({});
+
+  useEffect(() => {
+    async function loadSettings() {
+      const data = await fetchSettings();
+      if (data && Object.keys(data).length > 0) {
+        setSettings(data);
+      }
+    }
+    loadSettings();
+  }, []);
+
+  const primaryPhone = settings.primary_phone || "+91 7978206652";
+  const secondaryPhone = settings.secondary_phone || "+91 9658264263";
+  const primaryEmail = settings.primary_email || "sales@forecastearthings.com";
+  const footerDesc = settings.footer?.description || "Leading manufacturer & supplier of earthing solutions, lightning arresters and electrical safety products. Make in India for a safer world.";
+  const copyright = settings.footer?.copyright_text || "© 2026 FORECAST EARTHINGS PVT. LTD. All rights reserved.";
+  const motto = settings.motto || "Chalo Banaye Behtar Bharat";
+
   return (
     <footer className="relative bg-brand-navyDark text-slate-300 border-t-4 border-brand-red overflow-hidden">
 
       {/* Background Skyline Image from mockup assets */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
         <Image
-          src="/images/footer/footer-skyline-power-lines.webp"
+          src={getCloudinaryUrl("/images/footer/footer-skyline-power-lines.webp")}
           alt="Electrical Power Line Skyline Background"
           fill
           className="object-cover object-bottom"
@@ -24,7 +48,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="bg-white p-2.5 rounded-lg inline-block w-56 shadow-sm">
               <Image
-                src="/images/logo/logo.svg"
+                src={getCloudinaryUrl("/images/logo/logo.svg")}
                 alt="Forecast Earthings Pvt. Ltd."
                 width={220}
                 height={50}
@@ -32,18 +56,18 @@ export default function Footer() {
               />
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Leading manufacturer & supplier of earthing solutions, lightning arresters and electrical safety products. Make in India for a safer world.
+              {footerDesc}
             </p>
 
             {/* Social Media Links */}
             <div className="flex items-center gap-3 pt-2">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-slate-800 hover:bg-brand-red text-white transition-colors" aria-label="LinkedIn">
+              <a href={settings.social_links?.linkedin || "https://linkedin.com"} target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-slate-800 hover:bg-brand-red text-white transition-colors" aria-label="LinkedIn">
                 <Linkedin className="w-4 h-4" />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-slate-800 hover:bg-brand-red text-white transition-colors" aria-label="Facebook">
+              <a href={settings.social_links?.facebook || "https://facebook.com"} target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-slate-800 hover:bg-brand-red text-white transition-colors" aria-label="Facebook">
                 <Facebook className="w-4 h-4" />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-slate-800 hover:bg-brand-red text-white transition-colors" aria-label="YouTube">
+              <a href={settings.social_links?.youtube || "https://youtube.com"} target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-slate-800 hover:bg-brand-red text-white transition-colors" aria-label="YouTube">
                 <Youtube className="w-4 h-4" />
               </a>
             </div>
@@ -111,7 +135,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/products" className="hover:text-white transition-colors">
-                  Wires & Cables
+                  Wires &amp; Cables
                 </Link>
               </li>
             </ul>
@@ -129,14 +153,14 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-slate-400">
                 <Phone className="w-4 h-4 text-brand-red flex-shrink-0" />
-                <a href="tel:+917978206652" className="hover:text-white transition-colors">
-                  +91 7978206652 / +91 9658264263
+                <a href={`tel:${primaryPhone.replace(/\s+/g, '')}`} className="hover:text-white transition-colors">
+                  {primaryPhone} / {secondaryPhone}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-slate-400">
                 <Mail className="w-4 h-4 text-brand-red flex-shrink-0" />
-                <a href="mailto:sales@forecastearthings.com" className="hover:text-white transition-colors">
-                  sales@forecastearthings.com
+                <a href={`mailto:${primaryEmail}`} className="hover:text-white transition-colors">
+                  {primaryEmail}
                 </a>
               </li>
             </ul>
@@ -148,9 +172,9 @@ export default function Footer() {
       {/* Bottom Legal & Copyright Bar */}
       <div className="relative z-10 bg-slate-950 py-5 border-t border-slate-900 text-xs text-slate-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p>© 2024 Forecast Earthings Pvt. Ltd. All rights reserved.</p>
+          <p>{copyright}</p>
           <div className="flex items-center gap-2">
-            <span className="text-white font-semibold">Chalo Banaye Behtar Bharat</span>
+            <span className="text-white font-semibold">{motto}</span>
             <span className="text-base">🇮🇳</span>
           </div>
         </div>
@@ -158,3 +182,4 @@ export default function Footer() {
     </footer>
   );
 }
+

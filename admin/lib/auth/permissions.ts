@@ -43,6 +43,7 @@ const ROLE_PERMISSIONS: Record<UserRole, AdminResource[]> = {
     "offices",
     "navigation",
     "settings",
+    "audit-logs",
   ],
   editor: [
     "dashboard",

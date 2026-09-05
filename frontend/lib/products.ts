@@ -1,4 +1,5 @@
 import { Product, Category } from "./types";
+import { getCloudinaryUrl } from "./cloudinary";
 
 export const CATEGORIES: Category[] = [
   { id: "all", name: "All Products", slug: "all", count: 9 },
@@ -23,15 +24,11 @@ export const PRODUCTS: Product[] = [
       "Fast fault current dissipation capability",
       "Low maintenance with long-lasting ground stability",
       "Easy and fast installation in diverse soil conditions",
-      "Customized moisture booster chemical bag included",
-      "Engineered per Bureau of Indian Standards (BIS) norms"
+      "Complies with IS 3043, IEEE 80, and international standards"
     ],
     specifications: [
-      { label: "Product Code", value: "1-FEGI" },
-      { label: "Material", value: "Hot Dip Galvanized Steel" },
-      { label: "Electrode Design", value: "Pipe-in-Pipe Crystalline Technology" },
-      { label: "Standard Lengths", value: "1.0m, 2.0m, 3.0m" },
-      { label: "Outer Pipe Diameter", value: "48mm / 50mm / 80mm" },
+      { label: "Available Diameters", value: "48 mm, 60 mm, 76 mm, 88 mm" },
+      { label: "Standard Lengths", value: "2.0 m, 2.5 m, 3.0 m" },
       { label: "Inner Strip / Pipe Size", value: "25x3 mm / 32x6 mm" },
       { label: "Coating Thickness", value: "80-100 Microns (Hot Dip)" },
       { label: "Soil Suitability", value: "All Normal, Sandy & Rocky Soils" }
@@ -42,7 +39,7 @@ export const PRODUCTS: Product[] = [
       "Industrial machinery and LT/HT panels",
       "Telecommunication towers and data centers"
     ],
-    images: ["/images/products/gi-earthing-electrode.svg"],
+    images: [getCloudinaryUrl("/images/products/gi-earthing-electrode.svg")],
     brochureAvailable: true
   },
   {
@@ -77,7 +74,7 @@ export const PRODUCTS: Product[] = [
       "Oil & gas refineries",
       "Railways and metro transit grounding"
     ],
-    images: ["/images/products/copper-bonded-electrode.svg"],
+    images: [getCloudinaryUrl("/images/products/copper-bonded-electrode.svg")],
     brochureAvailable: true
   },
   {
@@ -110,7 +107,7 @@ export const PRODUCTS: Product[] = [
       "Heavy industrial motor control centers",
       "Captive power plants and switchyards"
     ],
-    images: ["/images/products/copper-terminal-electrode.svg"],
+    images: [getCloudinaryUrl("/images/products/copper-terminal-electrode.svg")],
     brochureAvailable: true
   },
   {
@@ -144,7 +141,7 @@ export const PRODUCTS: Product[] = [
       "Data centers & telecom hubs",
       "Nuclear & thermal power facilities"
     ],
-    images: ["/images/products/pure-copper-electrode.svg"],
+    images: [getCloudinaryUrl("/images/products/pure-copper-electrode.svg")],
     brochureAvailable: true
   },
   {
@@ -177,7 +174,7 @@ export const PRODUCTS: Product[] = [
       "Distribution transformers & utility poles",
       "CCTV & Traffic monitoring network grounding"
     ],
-    images: ["/images/products/copper-bonded-4g-rod.svg"],
+    images: [getCloudinaryUrl("/images/products/copper-bonded-4g-rod.svg")],
     brochureAvailable: true
   },
   {
@@ -210,7 +207,7 @@ export const PRODUCTS: Product[] = [
       "Heavy engineering factories and steel plants",
       "Saline coastal zone grounding systems"
     ],
-    images: ["/images/products/cast-iron-electrode.svg"],
+    images: [getCloudinaryUrl("/images/products/cast-iron-electrode.svg")],
     brochureAvailable: true
   },
   {
@@ -243,7 +240,7 @@ export const PRODUCTS: Product[] = [
       "Commercial building perimeter earth inspection chambers",
       "Substation grid test link enclosures"
     ],
-    images: ["/images/products/pit-cover.svg"],
+    images: [getCloudinaryUrl("/images/products/pit-cover.svg")],
     brochureAvailable: true
   },
   {
@@ -277,7 +274,7 @@ export const PRODUCTS: Product[] = [
       "Substation earth pits and lightning protection grids",
       "Solar & Wind power project grounding"
     ],
-    images: ["/images/products/backfill-compound.svg"],
+    images: [getCloudinaryUrl("/images/products/backfill-compound.svg")],
     brochureAvailable: true
   },
   {
@@ -314,7 +311,7 @@ export const PRODUCTS: Product[] = [
       "Airports, stadiums, and educational campuses",
       "Solar power parks and hazardous storage facilities"
     ],
-    images: ["/images/products/ese-lightning-arrester.svg"],
+    images: [getCloudinaryUrl("/images/products/ese-lightning-arrester.svg")],
     brochureAvailable: true
   }
 ];

@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: runner
+    image: forecast-earthings-backend:latest
+    container_name: forecast-earthings-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - PORT=8000
+      - WORKERS=4
+      - TIMEOUT=120
+      - APP_ENV=production
+    volumes:
+      - backend_uploads:/app/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - forecast_network
+
+volumes:
+  backend_uploads:
+    driver: local
+
+networks:
+  forecast_network:
+    driver: bridge

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <linearGradient id="copperMat" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9C4417"/><stop offset="50%" stop-color="#F7C4A1"/><stop offset="100%" stop-color="#732B08"/>
+    </linearGradient>
+    <linearGradient id="pipeBody" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#475569"/><stop offset="50%" stop-color="#CBD5E1"/><stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="500" rx="16" fill="url(#bgGrad)"/>
+  <rect x="30" y="30" width="130" height="28" rx="6" fill="#0F172A"/>
+  <text x="95" y="49" font-family="Arial" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">CODE: 3-FECT</text>
+
+  <!-- Graphics -->
+  <g transform="translate(170, 40)">
+    <!-- Heavy Solid Copper Terminal Head Plate -->
+    <path d="M 70 30 L 170 30 L 170 100 L 145 100 L 145 130 L 95 130 L 95 100 L 70 100 Z" fill="url(#copperMat)" stroke="#732B08" stroke-width="2"/>
+    <circle cx="100" cy="65" r="9" fill="#0F172A"/>
+    <circle cx="140" cy="65" r="9" fill="#0F172A"/>
+    <text x="120" y="48" font-family="Arial" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">COPPER TERMINAL</text>
+
+    <!-- Main Electrode Pipe -->
+    <rect x="90" y="130" width="60" height="290" fill="url(#pipeBody)" rx="4"/>
+    <polygon points="90,420 150,420 120,455" fill="#334155"/>
+  </g>
+
+  <!-- Annotations -->
+  <g font-family="Arial" font-size="12" font-weight="600">
+    <rect x="420" y="100" width="150" height="36" rx="6" fill="#FFFFFF" stroke="#9C4417"/>
+    <text x="495" y="122" text-anchor="middle" fill="#0F172A">Solid Cu Busbar Head</text>
+    <line x1="340" y1="105" x2="420" y2="118" stroke="#D90429" stroke-width="1.5" stroke-dasharray="3"/>
+  </g>
+</svg>

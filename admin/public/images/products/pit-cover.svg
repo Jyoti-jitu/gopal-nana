@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#E2E8F0"/></linearGradient>
+    <linearGradient id="pitGreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#15803D"/><stop offset="100%" stop-color="#14532D"/></linearGradient>
+    <linearGradient id="lidMat" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22C55E"/><stop offset="100%" stop-color="#166534"/></linearGradient>
+  </defs>
+  <rect width="600" height="500" rx="16" fill="url(#bgGrad)"/>
+  <rect x="30" y="30" width="130" height="28" rx="6" fill="#0F172A"/>
+  <text x="95" y="49" font-family="Arial" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">CODE: 7-FECC</text>
+
+  <!-- Pit Cover Perspective Graphic -->
+  <g transform="translate(130, 80)">
+    <!-- Base Chamber -->
+    <polygon points="40,240 300,240 330,340 10,340" fill="url(#pitGreen)"/>
+    <!-- Top Rim -->
+    <ellipse cx="170" cy="160" rx="140" ry="60" fill="#14532D" stroke="#4ADE80" stroke-width="3"/>
+    <!-- Lid Cover -->
+    <ellipse cx="170" cy="155" rx="125" ry="50" fill="url(#lidMat)"/>
+    <ellipse cx="170" cy="155" rx="80" ry="30" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="8"/>
+    <!-- Branding Text on Lid -->
+    <text x="170" y="160" font-family="Arial" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">FORECAST EARTHPIT</text>
+  </g>
+</svg>

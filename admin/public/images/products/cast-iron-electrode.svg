@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#E2E8F0"/></linearGradient>
+    <linearGradient id="ciMetal" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1E293B"/><stop offset="50%" stop-color="#475569"/><stop offset="100%" stop-color="#0F172A"/></linearGradient>
+  </defs>
+  <rect width="600" height="500" rx="16" fill="url(#bgGrad)"/>
+  <rect x="30" y="30" width="130" height="28" rx="6" fill="#0F172A"/>
+  <text x="95" y="49" font-family="Arial" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">CODE: 6-FECI</text>
+
+  <g transform="translate(180, 50)">
+    <!-- Top Flange -->
+    <ellipse cx="120" cy="50" rx="70" ry="20" fill="url(#ciMetal)" stroke="#94A3B8" stroke-width="2"/>
+    <ellipse cx="120" cy="50" rx="40" ry="10" fill="#0F172A"/>
+    <!-- Bolts on flange -->
+    <circle cx="70" cy="50" r="4" fill="#CBD5E1"/><circle cx="170" cy="50" r="4" fill="#CBD5E1"/>
+
+    <!-- CI Heavy Pipe Body -->
+    <rect x="75" y="55" width="90" height="340" fill="url(#ciMetal)"/>
+    <ellipse cx="120" cy="395" rx="45" ry="12" fill="#0F172A"/>
+  </g>
+</svg>

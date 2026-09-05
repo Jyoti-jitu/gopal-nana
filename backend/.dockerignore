@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Python bytecode & environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+tests/
+
+# Local media uploads (keep directory if needed)
+uploads/*
+!uploads/.gitkeep
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.log
+
+# Docker & documentation
+Dockerfile*
+docker-compose*
+README.md

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#E2E8F0"/></linearGradient>
+    <linearGradient id="cuRod" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#732B08"/><stop offset="40%" stop-color="#E89B6A"/><stop offset="100%" stop-color="#8C3A10"/></linearGradient>
+  </defs>
+  <rect width="600" height="500" rx="16" fill="url(#bgGrad)"/>
+  <rect x="30" y="30" width="130" height="28" rx="6" fill="#0F172A"/>
+  <text x="95" y="49" font-family="Arial" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">CODE: 5-FECBR</text>
+
+  <g transform="translate(200, 40)">
+    <!-- 4G Rod Graphic -->
+    <rect x="85" y="40" width="30" height="370" rx="4" fill="url(#cuRod)"/>
+    <!-- Threading Top -->
+    <line x1="85" y1="50" x2="115" y2="50" stroke="#0F172A" stroke-width="2"/>
+    <line x1="85" y1="58" x2="115" y2="58" stroke="#0F172A" stroke-width="2"/>
+    <line x1="85" y1="66" x2="115" y2="66" stroke="#0F172A" stroke-width="2"/>
+    <polygon points="85,410 115,410 100,450" fill="#732B08"/>
+  </g>
+
+  <!-- Signal Tower Icon Background Accent -->
+  <g transform="translate(380, 200)" opacity="0.2">
+    <path d="M 50 0 L 0 150 L 100 150 Z" fill="none" stroke="#0F172A" stroke-width="4"/>
+    <line x1="25" y1="75" x2="75" y2="75" stroke="#0F172A" stroke-width="3"/>
+  </g>
+</svg>

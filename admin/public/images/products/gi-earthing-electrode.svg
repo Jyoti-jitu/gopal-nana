@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <linearGradient id="galvMetal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#94A3B8"/>
+      <stop offset="25%" stop-color="#CBD5E1"/>
+      <stop offset="50%" stop-color="#F1F5F9"/>
+      <stop offset="75%" stop-color="#CBD5E1"/>
+      <stop offset="100%" stop-color="#64748B"/>
+    </linearGradient>
+    <linearGradient id="innerRod" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="50%" stop-color="#94A3B8"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="redAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#D90429"/>
+      <stop offset="100%" stop-color="#EF233C"/>
+    </linearGradient>
+    <pattern id="spangle" width="20" height="20" patternUnits="userSpaceOnUse">
+      <polygon points="0,0 10,5 5,15" fill="#E2E8F0" opacity="0.4"/>
+      <polygon points="10,5 20,2 15,18" fill="#FFFFFF" opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <rect width="600" height="500" rx="16" fill="url(#bgGrad)"/>
+  
+  <!-- Technical Grid Background -->
+  <g opacity="0.15" stroke="#0F172A" stroke-width="1">
+    <line x1="50" y1="0" x2="50" y2="500"/>
+    <line x1="150" y1="0" x2="150" y2="500"/>
+    <line x1="250" y1="0" x2="250" y2="500"/>
+    <line x1="350" y1="0" x2="350" y2="500"/>
+    <line x1="450" y1="0" x2="450" y2="500"/>
+    <line x1="550" y1="0" x2="550" y2="500"/>
+    <line x1="0" y1="100" x2="600" y2="100"/>
+    <line x1="0" y1="200" x2="600" y2="200"/>
+    <line x1="0" y1="300" x2="600" y2="300"/>
+    <line x1="0" y1="400" x2="600" y2="400"/>
+  </g>
+
+  <!-- Product Badge -->
+  <rect x="30" y="30" width="130" height="28" rx="6" fill="#0F172A"/>
+  <text x="95" y="49" font-family="Arial" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">CODE: 1-FEGI</text>
+
+  <!-- GI Electrode Diagram -->
+  <g transform="translate(180, 50)">
+    <!-- Outer Galvanized Pipe -->
+    <rect x="80" y="30" width="80" height="360" rx="10" fill="url(#galvMetal)"/>
+    <rect x="80" y="30" width="80" height="360" rx="10" fill="url(#spangle)"/>
+    
+    <!-- Cutaway View to show Inner Pipe & Compound -->
+    <rect x="88" y="140" width="64" height="180" rx="4" fill="#334155"/>
+    <!-- Crystalline compound filling pattern -->
+    <g opacity="0.6">
+      <circle cx="100" cy="160" r="3" fill="#94A3B8"/>
+      <circle cx="120" cy="180" r="4" fill="#CBD5E1"/>
+      <circle cx="140" cy="165" r="2.5" fill="#E2E8F0"/>
+      <circle cx="110" cy="210" r="3.5" fill="#CBD5E1"/>
+      <circle cx="135" cy="240" r="4" fill="#94A3B8"/>
+      <circle cx="105" cy="270" r="3" fill="#E2E8F0"/>
+      <circle cx="128" cy="295" r="4.5" fill="#CBD5E1"/>
+    </g>
+    <!-- Inner Core Conductor Strip -->
+    <rect x="110" y="20" width="20" height="380" fill="url(#innerRod)"/>
+    
+    <!-- Top Clamp Terminal -->
+    <rect x="65" y="40" width="110" height="25" rx="4" fill="#1E293B" stroke="#64748B" stroke-width="2"/>
+    <circle cx="80" cy="52.5" r="5" fill="#D90429"/>
+    <circle cx="160" cy="52.5" r="5" fill="#D90429"/>
+    <rect x="95" y="10" width="50" height="30" fill="url(#redAccent)" rx="3"/>
+    <text x="120" y="30" font-family="Arial" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">FE GI</text>
+
+    <!-- Bottom Spike Cap -->
+    <polygon points="80,390 160,390 120,430" fill="#475569"/>
+  </g>
+
+  <!-- Technical Callouts -->
+  <g font-family="Arial" font-size="12" font-weight="600" fill="#334155">
+    <!-- Callout 1 -->
+    <line x1="370" y1="120" x2="470" y2="100" stroke="#D90429" stroke-width="1.5" stroke-dasharray="4"/>
+    <circle cx="370" cy="120" r="4" fill="#D90429"/>
+    <rect x="475" y="85" width="110" height="30" rx="4" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="530" y="105" text-anchor="middle" font-size="11" fill="#0F172A">Hot Dip Galvanized</text>
+
+    <!-- Callout 2 -->
+    <line x1="310" y1="250" x2="470" y2="250" stroke="#D90429" stroke-width="1.5" stroke-dasharray="4"/>
+    <circle cx="310" cy="250" r="4" fill="#D90429"/>
+    <rect x="475" y="235" width="115" height="30" rx="4" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="532" y="255" text-anchor="middle" font-size="11" fill="#0F172A">Crystalline Fill Compound</text>
+
+    <!-- Callout 3 -->
+    <line x1="330" y1="410" x2="470" y2="400" stroke="#D90429" stroke-width="1.5" stroke-dasharray="4"/>
+    <circle cx="330" cy="410" r="4" fill="#D90429"/>
+    <rect x="475" y="385" width="110" height="30" rx="4" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="530" y="405" text-anchor="middle" font-size="11" fill="#0F172A">Heavy Duty Base</text>
+  </g>
+</svg>

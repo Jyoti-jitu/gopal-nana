@@ -1,46 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { getCloudinaryUrl } from "@/lib/cloudinary";
 import Container from "@/components/ui/Container";
 import ProductCard from "@/components/products/ProductCard";
-import { PRODUCTS, CATEGORIES } from "@/lib/products";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { Search, Quote, Star } from "lucide-react";
-
-const TESTIMONIALS = [
-  {
-    name: "Raj Sen",
-    role: "Project Engineering Manager",
-    quote: "Forecast Earthings provides excellent quality earthing products with reliable performance. Their technical support and on-time delivery make them a trusted partner for our projects.",
-    link: "/contact"
-  },
-  {
-    name: "Ravi Kumar",
-    role: "Electrical Infrastructure Lead",
-    quote: "We are highly satisfied with the durability and quality of Forecast Earthings’ products. Their team is responsive, professional, and committed to customer satisfaction.",
-    link: "/contact"
-  },
-  {
-    name: "Sachin Roy",
-    role: "EPC Substation Consultant",
-    quote: "Outstanding service and superior earthing solutions. Forecast Earthings consistently meets industry standards and delivers dependable results across all our installations.",
-    link: "/contact"
-  }
-];
+import { Search, Quote, Star, Loader2 } from "lucide-react";
+import { fetchProducts, fetchCategories, fetchTestimonials } from "@/lib/api";
+import { Product, Category } from "@/lib/types";
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredProducts = PRODUCTS.filter((product) => {
-    const matchesCategory =
-      selectedCategory === "all" || product.categorySlug === selectedCategory;
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      const [prodsData, catsData, testsData] = await Promise.all([
+        fetchProducts(selectedCategory, searchQuery),
+        fetchCategories(),
+        fetchTestimonials(true)
+      ]);
+      setProducts(prodsData);
+      setCategories(catsData);
+      if (testsData && testsData.length > 0) {
+        setTestimonials(testsData);
+      }
+      setLoading(false);
+    }
+    loadData();
+  }, [selectedCategory]);
+
+  const filteredProducts = products.filter((product) => {
     const matchesSearch =
+      !searchQuery ||
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.shortDescription.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesSearch;
   });
 
   return (
@@ -49,7 +52,7 @@ export default function ProductsPage() {
       <section className="relative bg-brand-navyDark text-white py-16 sm:py-24 overflow-hidden border-b border-slate-800">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/products/products-hero-banner.jpg"
+            src={getCloudinaryUrl("/images/products/products-hero-banner.jpg")}
             alt="Products Laboratory Background"
             fill
             priority
@@ -93,11 +96,11 @@ export default function ProductsPage() {
 
             {/* Category Filter Tabs */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-              {CATEGORIES.map((cat) => {
+              {categories.map((cat) => {
                 const isActive = selectedCategory === cat.slug;
                 return (
                   <button
-                    key={cat.id}
+                    key={cat.id || cat.slug}
                     onClick={() => setSelectedCategory(cat.slug)}
                     className={`px-4 py-2 rounded-md font-semibold text-xs sm:text-sm whitespace-nowrap transition-all ${
                       isActive
@@ -129,7 +132,12 @@ export default function ProductsPage() {
           </div>
 
           {/* Product Grid */}
-          {filteredProducts.length > 0 ? (
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="w-8 h-8 text-brand-red animate-spin" />
+              <span className="ml-3 text-slate-600 font-medium">Loading products...</span>
+            </div>
+          ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProducts.map((product) => (
                 <ProductCard key={product.slug} product={product} />
@@ -154,7 +162,7 @@ export default function ProductsPage() {
         </Container>
       </section>
 
-      {/* What Our Clients Say (Testimonials) Section - Positioned Right After All Products */}
+      {/* What Our Clients Say (Testimonials) Section */}
       <section className="py-16 sm:py-24 bg-white border-b border-slate-200">
         <Container>
           
@@ -167,32 +175,51 @@ export default function ProductsPage() {
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="bg-slate-50 p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+            {(testimonials.length > 0 ? testimonials : [
+              {
+                name: "Rajesh Kumar",
+                designation: "Project Manager",
+                company: "L&T Construction",
+                content: "Forecast Earthings provides excellent quality earthing products with reliable performance. Their technical support is top-notch."
+              },
+              {
+                name: "Amit Sharma",
+                designation: "Electrical Consultant",
+                company: "Independent Consultant",
+                content: "Best-in-class ESE Lightning Arresters. We haven't faced a single issue in our industrial plant since installation."
+              },
+              {
+                name: "Sandeep Mohanty",
+                designation: "Site Engineer",
+                company: "OPGCL",
+                content: "Highly impressed with their copper-bonded rods. The conductivity is superior to other local brands we used earlier."
+              }
+            ]).slice(0, 3).map((t, idx) => (
+              <div key={t.name || idx} className="bg-slate-50 p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
                 <div className="space-y-4">
                   <div className="flex items-center space-x-1 text-amber-400">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(t.rating || 5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-amber-400" />
                     ))}
                   </div>
                   <Quote className="w-8 h-8 text-brand-red/30" />
                   <p className="text-slate-700 text-sm leading-relaxed italic">
-                    "{t.quote}"
+                    &quot;{t.content || t.quote}&quot;
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
                   <div>
                     <a
-                      href={t.link}
+                      href="/contact"
                       className="font-bold text-brand-navy hover:text-brand-red text-base transition-colors"
                     >
                       {t.name}
                     </a>
-                    <p className="text-slate-500 text-xs font-semibold">{t.role}</p>
+                    <p className="text-slate-500 text-xs font-semibold">{t.designation || t.role} {t.company ? `• ${t.company}` : ""}</p>
                   </div>
                   <a
-                    href={t.link}
+                    href="/contact"
                     className="text-xs font-bold text-brand-red hover:underline"
                   >
                     Contact →
@@ -207,3 +234,4 @@ export default function ProductsPage() {
     </>
   );
 }
+

@@ -1,0 +1,75 @@
+# ============================================================
+# Render.com Deployment Configuration
+# Forecast Earthings Backend — FastAPI + Gunicorn
+# ============================================================
+# Docs: https://render.com/docs/render-yaml-spec
+
+services:
+  - type: web
+    name: forecast-earthings-backend
+    runtime: python
+    region: singapore          # Closest region for India-based users (change if needed)
+    plan: free                 # Change to 'starter' or higher for no cold-starts
+
+    # ── Build ──────────────────────────────────────────────
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+
+    # ── Start ──────────────────────────────────────────────
+    # $PORT is injected by Render automatically
+    startCommand: >
+      gunicorn app.main:app
+      --workers 2
+      --worker-class uvicorn.workers.UvicornWorker
+      --bind 0.0.0.0:$PORT
+      --timeout 120
+      --access-logfile -
+      --error-logfile -
+
+    # ── Health Check ───────────────────────────────────────
+    healthCheckPath: /health
+
+    # ── Environment Variables ──────────────────────────────
+    # Set SECRET values in the Render dashboard, not here.
+    # Only non-sensitive defaults are listed below.
+    envVars:
+      - key: APP_ENV
+        value: production
+
+      - key: PYTHON_VERSION
+        value: "3.10.14"
+
+      - key: MEDIA_STORAGE_TYPE
+        value: cloudinary
+
+      - key: MEDIA_UPLOAD_DIR
+        value: uploads
+
+      - key: MAX_UPLOAD_SIZE_MB
+        value: "10"
+
+      - key: JWT_ALGORITHM
+        value: HS256
+
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "600"
+
+      - key: CLOUDINARY_FOLDER
+        value: forecast_earthings
+
+      - key: MONGODB_DATABASE
+        value: forecast_earthings
+
+      # ── Set these SECRET values in the Render Dashboard ──
+      # MONGODB_URI               = mongodb+srv://...
+      # JWT_SECRET_KEY            = <strong-random-secret>
+      # CLOUDINARY_CLOUD_NAME     = bctl2gxd
+      # CLOUDINARY_API_KEY        = 214629581935829
+      # CLOUDINARY_API_SECRET     = <your-secret>
+      # CLOUDINARY_URL            = cloudinary://...
+      # ADMIN_EMAIL               = admin@forecastearthings.com
+      # ADMIN_PASSWORD            = <strong-password>
+      # REVALIDATION_SECRET       = <random-secret>
+      # NEXT_PUBLIC_REVALIDATION_URL = https://your-frontend.vercel.app/api/revalidate
+      # CORS_ORIGINS              = ["https://your-frontend.vercel.app","https://your-admin.vercel.app"]

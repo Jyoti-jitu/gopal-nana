@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
-import { getProductBySlug, PRODUCTS } from "@/lib/products";
+import { fetchProductBySlug, fetchProducts } from "@/lib/api";
+import { getCloudinaryUrl } from "@/lib/cloudinary";
 import { ArrowRight, CheckCircle2, Download, ShieldCheck } from "lucide-react";
 
 interface ProductPageProps {
@@ -13,13 +14,14 @@ interface ProductPageProps {
 }
 
 export async function generateStaticParams() {
-  return PRODUCTS.map((product) => ({
+  const products = await fetchProducts();
+  return products.map((product) => ({
     slug: product.slug,
   }));
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const product = getProductBySlug(params.slug);
+  const product = await fetchProductBySlug(params.slug);
   if (!product) {
     return {
       title: "Product Not Found | Forecast Earthings",
@@ -31,12 +33,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   };
 }
 
-export default function ProductDetailPage({ params }: ProductPageProps) {
-  const product = getProductBySlug(params.slug);
+export default async function ProductDetailPage({ params }: ProductPageProps) {
+  const product = await fetchProductBySlug(params.slug);
 
   if (!product) {
     notFound();
   }
+
+  const primaryImage = product.images?.[0] ? getCloudinaryUrl(product.images[0]) : getCloudinaryUrl("/images/products/gi-earthing-electrode.svg");
 
   return (
     <div className="bg-slate-50 min-h-screen pb-16">
@@ -62,7 +66,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           <div className="lg:col-span-5 space-y-4">
             <div className="relative h-80 sm:h-96 w-full bg-slate-50 rounded-xl border border-slate-200 p-6 flex items-center justify-center overflow-hidden">
               <Image
-                src={product.images[0]}
+                src={primaryImage}
                 alt={product.name}
                 fill
                 priority
@@ -73,13 +77,13 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             {/* 3 Thumbnail Previews matching reference mockup */}
             <div className="grid grid-cols-3 gap-3">
               <div className="relative h-20 bg-slate-50 rounded-lg border-2 border-brand-red p-2 flex items-center justify-center">
-                <Image src={product.images[0]} alt="Thumbnail 1" fill className="object-contain p-1" />
+                <Image src={primaryImage} alt="Thumbnail 1" fill className="object-contain p-1" />
               </div>
               <div className="relative h-20 bg-slate-50 rounded-lg border border-slate-200 p-2 flex items-center justify-center">
-                <Image src={product.images[0]} alt="Thumbnail 2" fill className="object-contain opacity-70 p-1" />
+                <Image src={primaryImage} alt="Thumbnail 2" fill className="object-contain opacity-70 p-1" />
               </div>
               <div className="relative h-20 bg-slate-50 rounded-lg border border-slate-200 p-2 flex items-center justify-center">
-                <Image src={product.images[0]} alt="Thumbnail 3" fill className="object-contain opacity-70 p-1" />
+                <Image src={primaryImage} alt="Thumbnail 3" fill className="object-contain opacity-70 p-1" />
               </div>
             </div>
           </div>
@@ -91,9 +95,9 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
                 {product.name}
               </h1>
               
-              {/* Reliable | Durable | High Performance Subtitle matching mockup */}
+              {/* Subtitle */}
               <p className="text-sm font-semibold text-slate-500 tracking-wide">
-                Reliable | Durable | High Performance
+                Code: {product.code} | Category: {product.category}
               </p>
 
               <p className="text-slate-700 text-base leading-relaxed pt-2">
@@ -126,44 +130,64 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
         {/* Bottom Specs & Features Grid matching reference mockup */}
         <div className="mt-10 bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm">
           
-          {/* Tabs Bar matching mockup */}
+          {/* Section Headers */}
           <div className="flex border-b border-slate-200 mb-8 space-x-8">
-            <button className="pb-3 border-b-2 border-brand-red font-bold text-brand-red text-base">
-              Key Features
-            </button>
-            <button className="pb-3 text-slate-500 font-semibold text-base hover:text-slate-800">
-              Specifications
-            </button>
-            <button className="pb-3 text-slate-500 font-semibold text-base hover:text-slate-800">
-              Applications
-            </button>
+            <h2 className="pb-3 border-b-2 border-brand-red font-bold text-brand-red text-base">
+              Key Features &amp; Specifications
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             
-            {/* Left: Key Features List matching mockup (6 Cols) */}
+            {/* Left: Key Features List (6 Cols) */}
             <div className="lg:col-span-6 space-y-4">
-              {product.features.map((feature, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-brand-red flex-shrink-0" />
-                  <span className="text-slate-800 text-sm font-semibold">{feature}</span>
+              <h3 className="font-bold text-brand-navy text-base mb-4 border-b border-slate-200 pb-2">
+                Key Features
+              </h3>
+              {product.features && product.features.length > 0 ? (
+                product.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-brand-red flex-shrink-0" />
+                    <span className="text-slate-800 text-sm font-semibold">{feature}</span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-slate-500 text-sm italic">Standard engineering features applied.</p>
+              )}
+
+              {product.applications && product.applications.length > 0 && (
+                <div className="pt-6">
+                  <h3 className="font-bold text-brand-navy text-base mb-3 border-b border-slate-200 pb-2">
+                    Applications
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {product.applications.map((app, idx) => (
+                      <span key={idx} className="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-semibold rounded-full border border-slate-200">
+                        {app}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
 
-            {/* Right: Product Specifications Table matching mockup (6 Cols) */}
+            {/* Right: Product Specifications Table (6 Cols) */}
             <div className="lg:col-span-6">
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
                 <h3 className="font-bold text-brand-navy text-base mb-4 border-b border-slate-200 pb-2">
                   Product Specifications
                 </h3>
                 <div className="space-y-3 text-sm">
-                  {product.specifications.map((spec, idx) => (
-                    <div key={idx} className="flex justify-between items-center py-1 border-b border-slate-200/60 last:border-0">
-                      <span className="text-slate-600 font-semibold">{spec.label}</span>
-                      <span className="text-brand-navy font-bold text-right">{spec.value}</span>
-                    </div>
-                  ))}
+                  {product.specifications && product.specifications.length > 0 ? (
+                    product.specifications.map((spec, idx) => (
+                      <div key={idx} className="flex justify-between items-center py-1 border-b border-slate-200/60 last:border-0">
+                        <span className="text-slate-600 font-semibold">{spec.label}</span>
+                        <span className="text-brand-navy font-bold text-right">{spec.value}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-slate-500 text-sm italic">Contact engineering team for full datasheets.</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -197,3 +221,4 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     </div>
   );
 }
+

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { getCloudinaryUrl } from "@/lib/cloudinary";
 
 export default function Hero() {
   return (
@@ -8,7 +9,7 @@ export default function Hero() {
       {/* Background Exact Hero Banner Image (Tower + Lightning + City Skyline) */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero/home-hero-banner.jpg"
+          src={getCloudinaryUrl("/images/hero/home-hero-banner.jpg")}
           alt="Forecast Earthings Lightning Tower & City Skyline"
           fill
           priority

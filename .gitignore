@@ -1,40 +1,90 @@
-# dependencies
-node_modules
-/frontend/node_modules
+# ============================================================
+# Forecast Earthings — Root .gitignore
+# ============================================================
+
+# ── Node / npm ──────────────────────────────────────────────
+node_modules/
+/frontend/node_modules/
+/admin/node_modules/
 /.pnp
 .pnp.js
-
-# testing
-/coverage
-/frontend/coverage
-
-# next.js
-.next/
-/frontend/.next/
-/out/
-/frontend/out/
-
-# production
-/build
-/frontend/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# local env files
-.env*.local
-.env
-/frontend/.env
+# ── Next.js Build Outputs ───────────────────────────────────
+.next/
+/frontend/.next/
+/admin/.next/
+out/
+/frontend/out/
+/admin/out/
+/build/
+/frontend/build/
+/admin/build/
 
-# vercel
-.vercel
-
-# typescript
+# ── TypeScript ──────────────────────────────────────────────
 *.tsbuildinfo
 next-env.d.ts
+/frontend/next-env.d.ts
+/admin/next-env.d.ts
+
+# ── Python / Backend ────────────────────────────────────────
+backend/.venv/
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/*.pyc
+backend/.pytest_cache/
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# ── Environment Files (SECRET — never commit) ───────────────
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# frontend
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.production
+/frontend/.env.production.local
+/frontend/.env.development.local
+
+# admin
+/admin/.env
+/admin/.env.local
+/admin/.env.production
+/admin/.env.production.local
+/admin/.env.development.local
+
+# backend
+/backend/.env
+/backend/.env.local
+/backend/.env.docker
+/backend/.env.production
+
+# ── Vercel ──────────────────────────────────────────────────
+.vercel
+
+# ── OS & IDE ────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.pem
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+
+# ── Coverage / Testing ──────────────────────────────────────
+/coverage/
+/frontend/coverage/
+/admin/coverage/
+
+# ── Misc ────────────────────────────────────────────────────
+*.log

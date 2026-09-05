@@ -3,6 +3,7 @@ import Image from "next/image";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ContactCTA from "@/components/home/ContactCTA";
+import { getCloudinaryUrl } from "@/lib/cloudinary";
 import {
   Eye,
   Target,
@@ -36,31 +37,31 @@ const CORE_VALUES = [
     title: "Quality Excellence",
     desc: "Commitment to manufacturing products that meet international quality and safety standards.",
     icon: ShieldCheck,
-    img: "/images/about/about-substation-pit-cover.jpg"
+    img: getCloudinaryUrl("/images/about/about-substation-pit-cover.jpg")
   },
   {
     title: "Customer Satisfaction",
     desc: "Focus on understanding customer needs and delivering reliable, timely, and effective solutions.",
     icon: HeartHandshake,
-    img: "/images/about/about-chemical-pit-installation.jpg"
+    img: getCloudinaryUrl("/images/about/about-chemical-pit-installation.jpg")
   },
   {
     title: "Integrity & Ethics",
     desc: "Conducting business with honesty, fairness, and accountability across all operations.",
     icon: CheckCircle2,
-    img: "/images/about/about-corporate-overview.jpg"
+    img: getCloudinaryUrl("/images/about/about-corporate-overview.jpg")
   },
   {
     title: "Innovation",
     desc: "Continuous research, development, and improvement of earthing products and processes.",
     icon: Sparkles,
-    img: "/images/about/about-site-drilling.jpg"
+    img: getCloudinaryUrl("/images/about/about-site-drilling.jpg")
   },
   {
     title: "Sustainability",
     desc: "Responsible manufacturing practices with deep respect for the environment and society.",
     icon: Factory,
-    img: "/images/about/about-earth-tree-real.jpg"
+    img: getCloudinaryUrl("/images/about/about-earth-tree-real.jpg")
   }
 ];
 
@@ -68,37 +69,37 @@ const QUALITY_PILLARS = [
   {
     title: "Stringent Quality Control",
     desc: "Comprehensive quality control system across all stages of manufacturing — from raw material inspection to in-process checks and final product validation.",
-    img: "/images/about/about-substation-pit-cover.jpg",
+    img: getCloudinaryUrl("/images/about/about-substation-pit-cover.jpg"),
     icon: ShieldCheck
   },
   {
     title: "Premium Raw Materials",
     desc: "Only carefully selected, high-grade raw materials such as GI, copper, and bonded alloys from certified suppliers ensuring superior conductivity and corrosion resistance.",
-    img: "/images/products/copper-bonded-earthing-electrode.png",
+    img: getCloudinaryUrl("/images/products/copper-bonded-earthing-electrode.png"),
     icon: Cpu
   },
   {
     title: "Advanced Manufacturing & Testing",
     desc: "State-of-the-art manufacturing facilities equipped with modern galvanizing machinery and electrical/mechanical testing instruments.",
-    img: "/images/about/about-hero-bg.jpg",
+    img: getCloudinaryUrl("/images/about/about-hero-bg.jpg"),
     icon: Factory
   },
   {
     title: "Skilled Technical Expertise",
     desc: "Experienced engineers and trained quality professionals supervising molecular copper bonding processes and ensuring consistent product excellence.",
-    img: "/images/about/about-corporate-overview.jpg",
+    img: getCloudinaryUrl("/images/about/about-corporate-overview.jpg"),
     icon: Microscope
   },
   {
     title: "Compliance with Standards",
     desc: "Designed and manufactured in compliance with applicable Indian and international standards (IS 3043, IEEE 80, NFC 17-102:2011).",
-    img: "/images/about/about-chemical-pit-installation.jpg",
+    img: getCloudinaryUrl("/images/about/about-chemical-pit-installation.jpg"),
     icon: FlaskConical
   },
   {
     title: "Continuous Improvement & Innovation",
     desc: "Active investment in research, product development, and process optimization to introduce innovative safety solutions.",
-    img: "/images/about/about-site-drilling.jpg",
+    img: getCloudinaryUrl("/images/about/about-site-drilling.jpg"),
     icon: Truck
   }
 ];
@@ -110,7 +111,7 @@ export default function AboutPage() {
       <section className="relative bg-brand-navyDark text-white py-20 sm:py-28 overflow-hidden border-b border-slate-800">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/about/about-hero-bg.jpg"
+            src={getCloudinaryUrl("/images/about/about-hero-bg.jpg")}
             alt="Real Substation Grounding Grid Installation - Forecast Earthings"
             fill
             priority
@@ -182,7 +183,7 @@ export default function AboutPage() {
             <div className="lg:col-span-5 space-y-4">
               <div className="relative w-full h-[320px] rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-slate-900 group">
                 <Image
-                  src="/images/about/about-corporate-overview.jpg"
+                  src={getCloudinaryUrl("/images/about/about-corporate-overview.jpg")}
                   alt="Real Copper Bonded Earthing Electrode Installation - Forecast Earthings"
                   fill
                   sizes="(max-width: 768px) 100vw, 40vw"
@@ -199,7 +200,7 @@ export default function AboutPage() {
               {/* Secondary Heavy Duty Substation Earth Pit Cover Badge */}
               <div className="relative w-full h-[180px] rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-slate-900 group">
                 <Image
-                  src="/images/about/about-substation-pit-cover.jpg"
+                  src={getCloudinaryUrl("/images/about/about-substation-pit-cover.jpg")}
                   alt="Heavy Duty Substation Earth Pit Inspection Cover - Forecast Earthings"
                   fill
                   sizes="(max-width: 768px) 100vw, 40vw"
@@ -236,7 +237,7 @@ export default function AboutPage() {
             <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-300">
               <div className="relative h-48 w-full bg-slate-900 overflow-hidden">
                 <Image
-                  src="/images/about/about-vision-real.jpg"
+                  src={getCloudinaryUrl("/images/about/about-vision-real.jpg")}
                   alt="Real Power Transmission Grid - Our Vision"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
@@ -255,7 +256,7 @@ export default function AboutPage() {
                 <div>
                   <h3 className="text-2xl font-extrabold text-brand-navy">Our Vision</h3>
                   <p className="text-slate-700 text-sm leading-relaxed mt-3">
-                    "To become a globally recognized organization in the field of earthing and lightning protection solutions, known for excellence in quality, innovation, governance, and sustainable business practices, while contributing positively to society and the environment."
+                    &quot;To become a globally recognized organization in the field of earthing and lightning protection solutions, known for excellence in quality, innovation, governance, and sustainable business practices, while contributing positively to society and the environment.&quot;
                   </p>
                 </div>
                 <div className="pt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-brand-red uppercase tracking-wider">
@@ -269,7 +270,7 @@ export default function AboutPage() {
             <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-300">
               <div className="relative h-48 w-full bg-slate-900 overflow-hidden">
                 <Image
-                  src="/images/about/about-mission-real.jpg"
+                  src={getCloudinaryUrl("/images/about/about-mission-real.jpg")}
                   alt="Real Quality Control Engineering - Our Mission"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -351,7 +352,7 @@ export default function AboutPage() {
       <section className="py-16 sm:py-24 bg-slate-900 text-white border-b border-slate-800 relative overflow-hidden">
         <div className="absolute inset-0 opacity-15">
           <Image
-            src="/images/about/about-values-real.jpg"
+            src={getCloudinaryUrl("/images/about/about-values-real.jpg")}
             alt="Sustainable Solar Energy and Environmental Protection"
             fill
             className="object-cover"
@@ -479,7 +480,7 @@ export default function AboutPage() {
               {/* Detailed 3D Technical Cutaway Diagram SVG */}
               <div className="relative w-full h-[340px] sm:h-[380px] rounded-2xl overflow-hidden shadow-xl border border-slate-700 bg-slate-900 group">
                 <Image
-                  src="/images/about/what-is-earthing-detailed-diagram.svg"
+                  src={getCloudinaryUrl("/images/about/what-is-earthing-detailed-diagram.svg")}
                   alt="Detailed 3D Technical Earthing Cutaway Diagram"
                   fill
                   priority
@@ -491,7 +492,7 @@ export default function AboutPage() {
               {/* Real Field Installation Photo Banner */}
               <div className="relative w-full h-[150px] rounded-xl overflow-hidden shadow-md border border-slate-200 bg-slate-900 group">
                 <Image
-                  src="/images/about/earthing-detailed-cutaway-2.jpg"
+                  src={getCloudinaryUrl("/images/about/earthing-detailed-cutaway-2.jpg")}
                   alt="Real Field Chemical Earthing Installation"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"

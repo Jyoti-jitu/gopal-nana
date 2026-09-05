@@ -1,0 +1,42 @@
+# Normalize line endings in the repo to LF for all text files.
+# This prevents CRLF/LF conflicts between Windows and Linux/Mac devs.
+
+* text=auto eol=lf
+
+# Shell scripts — must be LF for Linux/Docker
+*.sh text eol=lf
+
+# Python files
+*.py text eol=lf
+
+# TypeScript / JavaScript
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.mjs text eol=lf
+
+# Web / Config
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.svg text eol=lf
+*.txt text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.env text eol=lf
+*.example text eol=lf
+
+# Binary files — no text processing
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary

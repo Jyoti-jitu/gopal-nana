@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 from fastapi import APIRouter, Depends, File, Form, UploadFile, Query
 from motor.motor_asyncio import AsyncIOMotorDatabase
@@ -24,6 +25,12 @@ async def upload_media(
 ):
     media_doc = await MediaService.upload_media(db, file=file, alt_text=alt_text, caption=caption, folder=folder)
     media_doc["id"] = str(media_doc.pop("_id"))
+    if "created_at" in media_doc and isinstance(media_doc["created_at"], datetime):
+        media_doc["created_at"] = media_doc["created_at"].isoformat()
+    if "updated_at" in media_doc and isinstance(media_doc["updated_at"], datetime):
+        media_doc["updated_at"] = media_doc["updated_at"].isoformat()
+    media_doc["original_name"] = media_doc.get("original_filename") or media_doc.get("filename")
+    media_doc["size_bytes"] = media_doc.get("size", 0)
     
     await AuditService.log_action(
         db, user_id=current_user["id"], user_email=current_user["email"],
@@ -61,6 +68,12 @@ async def list_media(
     items = []
     for d in docs:
         d["id"] = str(d.pop("_id"))
+        if "created_at" in d and isinstance(d["created_at"], datetime):
+            d["created_at"] = d["created_at"].isoformat()
+        if "updated_at" in d and isinstance(d["updated_at"], datetime):
+            d["updated_at"] = d["updated_at"].isoformat()
+        d["original_name"] = d.get("original_filename") or d.get("filename")
+        d["size_bytes"] = d.get("size", 0)
         items.append(d)
 
     return {"success": True, "data": build_pagination_response(items, total, page, limit)}

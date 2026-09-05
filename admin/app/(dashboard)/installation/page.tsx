@@ -6,10 +6,12 @@ import { InstallationStep } from "../../../lib/api/installation";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Modal } from "../../../components/ui/Modal";
+import { StatusBadge } from "../../../components/ui/StatusBadge";
 import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
 import { TableSkeleton } from "../../../components/ui/Skeleton";
 import { useToast } from "../../../components/ui/Toast";
-import { Wrench, Plus, Edit2, Trash2, CheckCircle2, XCircle } from "lucide-react";
+import { Wrench, Plus, Edit2, Trash2 } from "lucide-react";
+import { getCloudinaryUrl } from "@/lib/cloudinary";
 
 export default function InstallationStepsPage() {
   const { toast } = useToast();
@@ -23,6 +25,16 @@ export default function InstallationStepsPage() {
   const [description, setDescription] = useState("");
   const [enabled, setEnabled] = useState(true);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+
+  const defaultStepImages: Record<number, string> = {
+    1: getCloudinaryUrl("/images/installation/step1.jpg"),
+    2: getCloudinaryUrl("/images/installation/step2.jpg"),
+    3: getCloudinaryUrl("/images/installation/step3.jpg"),
+    4: getCloudinaryUrl("/images/installation/step4.jpg"),
+    5: getCloudinaryUrl("/images/installation/step5.jpg"),
+    6: getCloudinaryUrl("/images/installation/step6.jpg"),
+    7: getCloudinaryUrl("/images/installation/step7.jpg"),
+  };
 
   const handleOpenCreate = () => {
     setEditingStep(null);
@@ -83,19 +95,20 @@ export default function InstallationStepsPage() {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-navy-950">Installation Workflow Management</h2>
-        <TableSkeleton rows={7} cols={4} />
+        <h2 className="text-lg font-bold text-slate-900">Installation Steps</h2>
+        <TableSkeleton rows={7} cols={5} />
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between border-b border-navy-200 pb-4">
+      {/* Header matching Screen 11/7 */}
+      <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-navy-950">7-Step Installation Workflow</h2>
-          <p className="text-xs text-navy-500 font-medium">
-            Manage interactive installation steps shown on the public site.
+          <h1 className="text-xl font-bold tracking-tight text-slate-900">Installation Steps</h1>
+          <p className="text-xs text-slate-500 font-medium mt-0.5">
+            Manage 7-step installation process
           </p>
         </div>
         <Button variant="primary" size="sm" onClick={handleOpenCreate}>
@@ -103,56 +116,60 @@ export default function InstallationStepsPage() {
         </Button>
       </div>
 
-      <div className="rounded-lg border border-navy-200 bg-white shadow-sm overflow-hidden">
+      {/* Table matching Screen 11/7 */}
+      <div className="rounded-xl border border-slate-200/80 bg-white shadow-xs overflow-hidden">
         {steps.length === 0 ? (
           <div className="p-12 text-center">
-            <Wrench className="mx-auto h-12 w-12 text-navy-300" />
-            <h3 className="mt-3 text-sm font-bold text-navy-900">No Installation Steps Defined</h3>
+            <Wrench className="mx-auto h-12 w-12 text-slate-300" />
+            <h3 className="mt-3 text-sm font-bold text-slate-900">No Installation Steps Defined</h3>
           </div>
         ) : (
           <table className="w-full text-left text-xs">
-            <thead className="bg-navy-50 text-navy-700 uppercase tracking-wider font-semibold border-b border-navy-200">
+            <thead className="bg-slate-50 text-slate-600 uppercase tracking-wider font-bold border-b border-slate-200 text-[11px]">
               <tr>
-                <th className="py-3 px-4">Step #</th>
+                <th className="py-3 px-4 w-12">#</th>
+                <th className="py-3 px-4">Image</th>
                 <th className="py-3 px-4">Title</th>
-                <th className="py-3 px-4">Description</th>
-                <th className="py-3 px-4">Enabled</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-center">Order</th>
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-navy-100 text-navy-900 font-medium">
-              {steps.map((st) => (
-                <tr key={st.id} className="hover:bg-navy-50/50 transition-colors">
-                  <td className="py-3 px-4 font-bold text-brand font-mono">Step {st.step_number}</td>
-                  <td className="py-3 px-4 font-bold text-navy-950">{st.title}</td>
-                  <td className="py-3 px-4 text-navy-600 max-w-xs truncate">{st.description}</td>
-                  <td className="py-3 px-4">
-                    {st.enabled ? (
-                      <span className="inline-flex items-center text-emerald-700 font-semibold">
-                        <CheckCircle2 className="mr-1 h-3.5 w-3.5" /> Enabled
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center text-slate-500 font-semibold">
-                        <XCircle className="mr-1 h-3.5 w-3.5" /> Disabled
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-3 px-4 text-right space-x-1">
-                    <button
-                      onClick={() => handleOpenEdit(st)}
-                      className="inline-flex p-1.5 text-blue-600 hover:bg-blue-50 rounded"
-                    >
-                      <Edit2 className="h-4 w-4" />
-                    </button>
-                    <button
-                      onClick={() => setDeleteTargetId(st.id)}
-                      className="inline-flex p-1.5 text-red-600 hover:bg-red-50 rounded"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+            <tbody className="divide-y divide-slate-100 text-slate-800 font-medium">
+              {steps.map((st, index) => {
+                const stepImg = (st as any).image || defaultStepImages[st.step_number] || `/images/installation/step${(index % 7) + 1}.jpg`;
+                return (
+                  <tr key={st.id} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="py-3 px-4 font-mono text-slate-400">{st.step_number}</td>
+                    <td className="py-3 px-4">
+                      <div className="h-10 w-10 rounded-lg border border-slate-200 bg-white overflow-hidden shadow-2xs">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={stepImg} alt={st.title} className="h-full w-full object-cover" />
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 font-bold text-slate-900">{st.title}</td>
+                    <td className="py-3 px-4">
+                      <StatusBadge status={st.enabled ? "published" : "draft"} />
+                    </td>
+                    <td className="py-3 px-4 text-center font-mono text-slate-500">{st.step_number}</td>
+                    <td className="py-3 px-4 text-right space-x-1 whitespace-nowrap">
+                      <button
+                        onClick={() => handleOpenEdit(st)}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-md transition-colors"
+                      >
+                        <Edit2 className="h-3.5 w-3.5" /> Edit
+                      </button>
+                      <button
+                        onClick={() => setDeleteTargetId(st.id)}
+                        className="inline-flex p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                        title="Delete Step"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
@@ -179,7 +196,7 @@ export default function InstallationStepsPage() {
             required
           />
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-navy-700 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
               Description *
             </label>
             <textarea
@@ -187,7 +204,7 @@ export default function InstallationStepsPage() {
               placeholder="Step instructions..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full rounded border border-navy-300 p-2 text-xs focus:outline-none"
+              className="w-full rounded-lg border border-slate-300 p-2 text-xs focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none"
               required
             />
           </div>
@@ -198,14 +215,14 @@ export default function InstallationStepsPage() {
               id="enabled"
               checked={enabled}
               onChange={(e) => setEnabled(e.target.checked)}
-              className="h-4 w-4 rounded border-navy-300 text-brand"
+              className="h-4 w-4 rounded border-slate-300 text-brand"
             />
-            <label htmlFor="enabled" className="text-xs font-semibold text-navy-800">
+            <label htmlFor="enabled" className="text-xs font-semibold text-slate-800">
               Enable step on public website
             </label>
           </div>
 
-          <div className="flex justify-end space-x-2 pt-4 border-t border-navy-100">
+          <div className="flex justify-end space-x-2 pt-4 border-t border-slate-100">
             <Button type="button" variant="outline" onClick={() => setModalOpen(false)}>
               Cancel
             </Button>

@@ -19,7 +19,7 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: {
     default: "Forecast Earthings Pvt. Ltd. | Earthing & Lightning Protection",
-    template: "%s | Forecast Earthings Pvt. Ltd.",
+    template: "%s",
   },
   description:
     "Leading manufacturer & supplier of GI Earthing Electrodes, Copper Bonded Electrodes, Pure Copper Electrodes, ESE Lightning Arresters, and Earth Enhancement Compounds under Make in India. Safety Today. A Safer Tomorrow.",

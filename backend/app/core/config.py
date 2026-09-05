@@ -35,10 +35,17 @@ class Settings(BaseSettings):
         return ["http://localhost:3000"]
         
     # Media Storage
-    MEDIA_STORAGE_TYPE: str = "local"
+    MEDIA_STORAGE_TYPE: str = "cloudinary"
     MEDIA_BASE_URL: str = "http://localhost:8000/media"
     MEDIA_UPLOAD_DIR: str = "uploads"
     MAX_UPLOAD_SIZE_MB: int = 10
+    
+    # Cloudinary
+    CLOUDINARY_CLOUD_NAME: str = "bctl2gxd"
+    CLOUDINARY_API_KEY: str = "214629581935829"
+    CLOUDINARY_API_SECRET: str = "SKAdrjwseUB0v-jLFIqeX0sb-Vs"
+    CLOUDINARY_URL: str = "cloudinary://214629581935829:SKAdrjwseUB0v-jLFIqeX0sb-Vs@bctl2gxd"
+    CLOUDINARY_FOLDER: str = "forecast_earthings"
     
     # Admin Credentials for Seeding
     ADMIN_EMAIL: str = "admin@forecastearthings.com"

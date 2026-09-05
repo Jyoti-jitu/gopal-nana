@@ -5,12 +5,11 @@ import Link from "next/link";
 import { Product, Category } from "../../lib/types/product";
 import { StatusBadge } from "../ui/StatusBadge";
 import { Button } from "../ui/Button";
-import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
 import { ConfirmDialog } from "../ui/ConfirmDialog";
 import { useProductMutations } from "../../hooks/useProducts";
 import { useToast } from "../ui/Toast";
-import { Search, Plus, Edit2, Copy, Globe, Eye, Trash2, Package } from "lucide-react";
+import { Search, Plus, Edit2, Copy, Globe, Eye, Trash2, Package, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProductTableProps {
   products: Product[];
@@ -36,7 +35,7 @@ export function ProductTable({
   onStatusFilterChange,
 }: ProductTableProps) {
   const { toast } = useToast();
-  const { deleteProduct, publishProduct, unpublishProduct, duplicateProduct } = useProductMutations();
+  const { deleteProduct, publishProduct, unpublishProduct, duplicateProduct, updateProduct } = useProductMutations();
 
   const [search, setSearch] = useState("");
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
@@ -77,6 +76,15 @@ export function ProductTable({
     }
   };
 
+  const handleToggleFeatured = async (prod: Product) => {
+    try {
+      await updateProduct({ id: prod.id, data: { featured: !prod.featured } });
+      toast(`${prod.name} ${!prod.featured ? "marked as featured" : "unmarked as featured"}`);
+    } catch (err: any) {
+      toast(err.message || "Failed to update status", "error");
+    }
+  };
+
   const handleDuplicate = async (prod: Product) => {
     try {
       await duplicateProduct(prod.id);
@@ -90,21 +98,17 @@ export function ProductTable({
 
   return (
     <div className="space-y-4">
-      {/* Search & Filter Toolbar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-4 rounded-lg border border-navy-200 shadow-sm">
-        <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-navy-400" />
-            <Input
-              placeholder="Search product name or code (e.g. 1-FEGI)..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 text-xs"
-            />
-          </div>
-          <Button type="submit" variant="secondary" size="sm">
-            Search
-          </Button>
+      {/* Search & Filter Toolbar matching Screen 3 */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs">
+        <form onSubmit={handleSearchSubmit} className="flex-1 relative">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full rounded-lg border border-slate-200 bg-slate-50/50 pl-9 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none transition-all"
+          />
         </form>
 
         <div className="flex items-center gap-2">
@@ -114,36 +118,36 @@ export function ProductTable({
               { label: "All Categories", value: "" },
               ...categories.map((c) => ({ label: c.name, value: c.slug })),
             ]}
-            className="text-xs py-1.5"
+            className="text-xs py-1.5 min-w-[130px]"
           />
 
           <Select
             onChange={(e) => onStatusFilterChange(e.target.value)}
             options={[
-              { label: "All Statuses", value: "" },
+              { label: "All Status", value: "" },
               { label: "Published", value: "published" },
               { label: "Draft", value: "draft" },
               { label: "Archived", value: "archived" },
             ]}
-            className="text-xs py-1.5"
+            className="text-xs py-1.5 min-w-[110px]"
           />
 
           <Link href="/products/new">
-            <Button variant="primary" size="sm" className="whitespace-nowrap">
-              <Plus className="mr-1.5 h-4 w-4" /> Add Product
+            <Button variant="primary" size="sm" className="whitespace-nowrap rounded-lg">
+              <Plus className="mr-1 h-3.5 w-3.5" /> Add Product
             </Button>
           </Link>
         </div>
       </div>
 
       {/* Data Table */}
-      <div className="rounded-lg border border-navy-200 bg-white shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-slate-200/80 bg-white shadow-xs overflow-hidden">
         {products.length === 0 ? (
           <div className="p-12 text-center">
-            <Package className="mx-auto h-12 w-12 text-navy-300" />
-            <h3 className="mt-3 text-sm font-bold text-navy-900">No Products Found</h3>
-            <p className="mt-1 text-xs text-navy-500">
-              No product matched your query criteria or database is empty.
+            <Package className="mx-auto h-12 w-12 text-slate-300" />
+            <h3 className="mt-3 text-sm font-bold text-slate-900">No Products Found</h3>
+            <p className="mt-1 text-xs text-slate-500">
+              No product matched your query criteria.
             </p>
             <Link href="/products/new" className="mt-4 inline-block">
               <Button variant="primary" size="sm">
@@ -154,89 +158,94 @@ export function ProductTable({
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-navy-50 text-navy-700 uppercase tracking-wider font-semibold border-b border-navy-200">
+              <thead className="bg-slate-50 text-slate-600 uppercase tracking-wider font-bold border-b border-slate-200 text-[11px]">
                 <tr>
                   <th className="py-3 px-4">Image</th>
                   <th className="py-3 px-4">Code</th>
                   <th className="py-3 px-4">Product Name</th>
                   <th className="py-3 px-4">Category</th>
                   <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4">Order</th>
+                  <th className="py-3 px-4 text-center">Featured</th>
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-navy-100 text-navy-900 font-medium">
+              <tbody className="divide-y divide-slate-100 text-slate-800 font-medium">
                 {products.map((p) => (
-                  <tr key={p.id} className="hover:bg-navy-50/50 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="h-10 w-10 rounded border border-navy-200 bg-white flex items-center justify-center p-1 overflow-hidden">
+                  <tr key={p.id} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="py-2.5 px-4">
+                      <div className="h-11 w-11 rounded-lg border border-slate-200 bg-white flex items-center justify-center p-1 overflow-hidden shadow-2xs">
                         {p.images && p.images.length > 0 ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={p.images[0].url} alt={p.name} className="h-full w-full object-contain" />
                         ) : (
-                          <Package className="h-5 w-5 text-navy-400" />
+                          <Package className="h-5 w-5 text-slate-400" />
                         )}
                       </div>
                     </td>
-                    <td className="py-3 px-4 font-bold text-brand">{p.code}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-2.5 px-4 font-bold text-[#0062E3] font-mono">{p.code}</td>
+                    <td className="py-2.5 px-4">
                       <div>
-                        <Link href={`/products/${p.id}`} className="font-bold text-navy-950 hover:underline">
+                        <Link href={`/products/${p.id}`} className="font-bold text-slate-900 hover:text-[#0062E3] hover:underline">
                           {p.name}
                         </Link>
                         {p.tag && (
-                          <span className="ml-2 inline-block rounded bg-navy-100 px-1.5 py-0.5 text-[10px] text-navy-700 font-semibold">
+                          <span className="ml-2 inline-block rounded-full bg-slate-100 px-2 py-0.5 text-[10px] text-slate-600 font-semibold">
                             {p.tag}
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-navy-600">{p.category?.name || "Uncategorized"}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-2.5 px-4 text-slate-600">{p.category?.name || "Earthing Electrodes"}</td>
+                    <td className="py-2.5 px-4">
                       <StatusBadge status={p.status} />
                     </td>
-                    <td className="py-3 px-4 font-mono text-navy-500">{p.display_order}</td>
-                    <td className="py-3 px-4 text-right space-x-1">
+                    <td className="py-2.5 px-4 text-center">
+                      {/* Featured Toggle Switch */}
+                      <button
+                        type="button"
+                        onClick={() => handleToggleFeatured(p)}
+                        className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                          p.featured ? "bg-[#0062E3]" : "bg-slate-200"
+                        }`}
+                        title={p.featured ? "Featured Product (click to toggle)" : "Not Featured"}
+                      >
+                        <span
+                          className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
+                            p.featured ? "translate-x-4" : "translate-x-0"
+                          }`}
+                        />
+                      </button>
+                    </td>
+                    <td className="py-2.5 px-4 text-right space-x-1 whitespace-nowrap">
+                      <Link
+                        href={`/products/${p.id}`}
+                        className="inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors"
+                        title="Edit Product"
+                      >
+                        <Edit2 className="h-3.5 w-3.5" /> Edit
+                      </Link>
                       <a
                         href={`${publicSiteUrl}/products/${p.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex p-1.5 text-navy-500 hover:text-navy-950 hover:bg-navy-100 rounded"
+                        className="inline-flex p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-md transition-colors"
                         title="View on Website"
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-3.5 w-3.5" />
                       </a>
-                      <Link
-                        href={`/products/${p.id}`}
-                        className="inline-flex p-1.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded"
-                        title="Edit Product"
-                      >
-                        <Edit2 className="h-4 w-4" />
-                      </Link>
-                      <button
-                        onClick={() => handleTogglePublish(p)}
-                        className={`inline-flex p-1.5 rounded ${
-                          p.status === "published"
-                            ? "text-emerald-600 hover:bg-emerald-50"
-                            : "text-amber-600 hover:bg-amber-50"
-                        }`}
-                        title={p.status === "published" ? "Unpublish" : "Publish Live"}
-                      >
-                        <Globe className="h-4 w-4" />
-                      </button>
                       <button
                         onClick={() => handleDuplicate(p)}
-                        className="inline-flex p-1.5 text-purple-600 hover:text-purple-800 hover:bg-purple-50 rounded"
+                        className="inline-flex p-1.5 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-md transition-colors"
                         title="Duplicate"
                       >
-                        <Copy className="h-4 w-4" />
+                        <Copy className="h-3.5 w-3.5" />
                       </button>
                       <button
                         onClick={() => setDeleteTargetId(p.id)}
-                        className="inline-flex p-1.5 text-red-600 hover:text-red-800 hover:bg-red-50 rounded"
-                        title="Delete Product"
+                        className="inline-flex p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                        title="Delete"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </td>
                   </tr>
@@ -246,32 +255,42 @@ export function ProductTable({
           </div>
         )}
 
-        {/* Pagination Bar */}
+        {/* Pagination Bar matching Screen 3 */}
         {total > 0 && (
-          <div className="flex items-center justify-between border-t border-navy-100 bg-navy-50/50 px-4 py-3 text-xs text-navy-600 font-semibold">
+          <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-4 py-3 text-xs text-slate-500 font-medium">
             <span>
               Showing {Math.min((page - 1) * limit + 1, total)} to {Math.min(page * limit, total)} of {total} products
             </span>
-            <div className="flex items-center space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
+            <div className="flex items-center space-x-1">
+              <button
                 disabled={page <= 1}
                 onClick={() => onPageChange(page - 1)}
+                className="h-7 w-7 rounded border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-slate-50 disabled:opacity-40 transition-colors"
               >
-                Previous
-              </Button>
-              <span>
-                Page {page} of {totalPages}
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </button>
+
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => onPageChange(i + 1)}
+                  className={`h-7 w-7 rounded text-xs font-bold transition-colors ${
+                    page === i + 1
+                      ? "bg-[#0062E3] text-white"
+                      : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button
                 disabled={page >= totalPages}
                 onClick={() => onPageChange(page + 1)}
+                className="h-7 w-7 rounded border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-slate-50 disabled:opacity-40 transition-colors"
               >
-                Next
-              </Button>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
             </div>
           </div>
         )}

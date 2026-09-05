@@ -64,25 +64,13 @@ export function EnquiryTable({
 
   return (
     <div className="space-y-4">
-      {/* Search & Status Filter */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-4 rounded-lg border border-navy-200 shadow-sm">
-        <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-navy-400" />
-            <Input
-              placeholder="Search name, email, phone or company..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 text-xs"
-            />
-          </div>
-        </form>
-
+      {/* Search & Status Filter matching Screen 7 */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs">
         <div className="w-48">
           <Select
             onChange={(e) => onStatusFilterChange(e.target.value)}
             options={[
-              { label: "All Statuses", value: "" },
+              { label: "All Status", value: "" },
               { label: "New", value: "new" },
               { label: "Contacted", value: "contacted" },
               { label: "In Progress", value: "in_progress" },
@@ -92,80 +80,84 @@ export function EnquiryTable({
             className="text-xs py-1.5"
           />
         </div>
+
+        <form onSubmit={handleSearchSubmit} className="flex-1 relative">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Search enquiries..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full rounded-lg border border-slate-200 bg-slate-50/50 pl-9 pr-3 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none transition-all"
+          />
+        </form>
       </div>
 
-      {/* Table */}
-      <div className="rounded-lg border border-navy-200 bg-white shadow-sm overflow-hidden">
+      {/* Table matching Screen 7 */}
+      <div className="rounded-xl border border-slate-200/80 bg-white shadow-xs overflow-hidden">
         {enquiries.length === 0 ? (
           <div className="p-12 text-center">
-            <Inbox className="mx-auto h-12 w-12 text-navy-300" />
-            <h3 className="mt-3 text-sm font-bold text-navy-900">No Customer Enquiries Found</h3>
-            <p className="mt-1 text-xs text-navy-500">No contact forms submitted yet.</p>
+            <Inbox className="mx-auto h-12 w-12 text-slate-300" />
+            <h3 className="mt-3 text-sm font-bold text-slate-900">No Customer Enquiries Found</h3>
+            <p className="mt-1 text-xs text-slate-500">No contact forms submitted yet.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-navy-50 text-navy-700 uppercase tracking-wider font-semibold border-b border-navy-200">
+              <thead className="bg-slate-50 text-slate-600 uppercase tracking-wider font-bold border-b border-slate-200 text-[11px]">
                 <tr>
-                  <th className="py-3 px-4">Customer Name</th>
-                  <th className="py-3 px-4">Contact Info</th>
-                  <th className="py-3 px-4">Product / Subject</th>
+                  <th className="py-3 px-4 w-12">#</th>
+                  <th className="py-3 px-4">Name</th>
+                  <th className="py-3 px-4">Company</th>
+                  <th className="py-3 px-4">Product</th>
                   <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4">Date Submitted</th>
+                  <th className="py-3 px-4">Date</th>
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-navy-100 text-navy-900 font-medium">
-                {enquiries.map((enq) => (
-                  <tr key={enq.id} className="hover:bg-navy-50/50 transition-colors">
-                    <td className="py-3 px-4">
-                      <Link href={`/enquiries/${enq.id}`} className="font-bold text-navy-950 hover:underline">
+              <tbody className="divide-y divide-slate-100 text-slate-800 font-medium">
+                {enquiries.map((enq, index) => (
+                  <tr key={enq.id} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="py-3 px-4 font-mono text-slate-400">{(page - 1) * limit + index + 1}</td>
+                    <td className="py-3 px-4 font-bold text-slate-900">
+                      <Link href={`/enquiries/${enq.id}`} className="hover:text-[#0062E3] hover:underline">
                         {enq.name}
                       </Link>
-                      {enq.company && <p className="text-[10px] text-navy-500">{enq.company}</p>}
+                      <p className="text-[10px] text-slate-400 font-mono mt-0.5">{enq.email}</p>
                     </td>
-                    <td className="py-3 px-4">
-                      <p className="text-navy-900 font-semibold">{enq.email}</p>
-                      <p className="text-navy-500 text-[10px] font-mono">{enq.phone}</p>
+                    <td className="py-3 px-4 text-slate-600">
+                      {enq.company || "Individual Customer"}
                     </td>
-                    <td className="py-3 px-4 text-navy-700 font-medium">
+                    <td className="py-3 px-4 text-slate-700 font-medium">
                       {enq.product ? (
-                        <span className="font-semibold text-brand">{enq.product}</span>
+                        <span className="font-semibold text-[#0062E3]">{enq.product}</span>
                       ) : (
                         enq.subject || "General Inquiry"
                       )}
                     </td>
                     <td className="py-3 px-4">
-                      <Select
-                        value={enq.status}
-                        onChange={(e) => handleStatusChange(enq.id, e.target.value as EnquiryStatus)}
-                        options={[
-                          { label: "New", value: "new" },
-                          { label: "Contacted", value: "contacted" },
-                          { label: "In Progress", value: "in_progress" },
-                          { label: "Resolved", value: "resolved" },
-                          { label: "Spam", value: "spam" },
-                        ]}
-                        className="text-xs py-1 px-2"
-                      />
+                      <StatusBadge status={enq.status} />
                     </td>
-                    <td className="py-3 px-4 text-navy-500 text-[10px] whitespace-nowrap">
-                      {new Date(enq.created_at).toLocaleString()}
+                    <td className="py-3 px-4 text-slate-500 text-[11px] whitespace-nowrap">
+                      {new Date(enq.created_at).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}
                     </td>
-                    <td className="py-3 px-4 text-right space-x-1">
+                    <td className="py-3 px-4 text-right space-x-1 whitespace-nowrap">
                       <Link
                         href={`/enquiries/${enq.id}`}
-                        className="inline-flex p-1.5 text-blue-600 hover:bg-blue-50 rounded"
-                        title="View Enquiry"
+                        className="inline-flex items-center gap-1 rounded-md px-3 py-1 text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors"
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-3.5 w-3.5" /> View
                       </Link>
                       <button
                         onClick={() => setDeleteId(enq.id)}
-                        className="inline-flex p-1.5 text-red-600 hover:bg-red-50 rounded"
+                        className="inline-flex p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
                         title="Delete Enquiry"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </td>
                   </tr>

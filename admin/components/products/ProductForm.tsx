@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Product, Category, ContentStatus, ProductImage } from "../../lib/types/product";
 import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
@@ -11,7 +12,8 @@ import { ProductImages } from "./ProductImages";
 import { useCategories } from "../../hooks/useCategories";
 import { useProductMutations } from "../../hooks/useProducts";
 import { useToast } from "../ui/Toast";
-import { ArrowLeft, Save, Globe, Eye, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, Globe, Eye, Plus, Trash2, Image as ImageIcon, Check } from "lucide-react";
+import { getCloudinaryUrl } from "../../lib/cloudinary";
 
 interface ProductFormProps {
   initialData?: Product;
@@ -24,6 +26,8 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
   const { data: categories = [] } = useCategories();
   const { createProduct, updateProduct, publishProduct, isCreating, isUpdating, isPublishing } = useProductMutations();
 
+  const [activeTab, setActiveTab] = useState<"basic" | "specs" | "images" | "seo" | "publishing">("basic");
+
   const [code, setCode] = useState(initialData?.code || "");
   const [name, setName] = useState(initialData?.name || "");
   const [slug, setSlug] = useState(initialData?.slug || "");
@@ -31,7 +35,12 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
   const [tag, setTag] = useState(initialData?.tag || "");
   const [shortDescription, setShortDescription] = useState(initialData?.short_description || "");
   const [description, setDescription] = useState(initialData?.description || "");
-  const [features, setFeatures] = useState<string[]>(initialData?.features || [""]);
+  const [features, setFeatures] = useState<string[]>(initialData?.features || [
+    "Hot dip galvanized for long life",
+    "High conductivity and low resistance",
+    "Available in various sizes",
+    "Suitable for all soil conditions"
+  ]);
   const [applications, setApplications] = useState<string[]>(initialData?.applications || [""]);
   const [specs, setSpecs] = useState<SpecRow[]>(
     initialData?.specifications?.map((s) => ({
@@ -39,7 +48,9 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
       value: s.values?.value || s.values?.val || Object.values(s.values || {})[0] || "",
     })) || []
   );
-  const [images, setImages] = useState<ProductImage[]>(initialData?.images || []);
+  const [images, setImages] = useState<ProductImage[]>(initialData?.images || [
+    { url: getCloudinaryUrl("/images/products/gi-earthing-electrode.svg"), alt: "GI Earthing Electrode" }
+  ]);
   const [featured, setFeatured] = useState<boolean>(initialData?.featured || false);
   const [displayOrder, setDisplayOrder] = useState<number>(initialData?.display_order || 1);
   const [status, setStatus] = useState<ContentStatus>(initialData?.status || "draft");
@@ -140,64 +151,65 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
     }
   };
 
-  const publicSiteUrl = process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || "http://localhost:3000";
+  const primaryImage = images[0]?.url || getCloudinaryUrl("/images/products/gi-earthing-electrode.svg");
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} className="space-y-8">
-      {/* Top Action Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-navy-200 pb-4">
-        <div className="flex items-center space-x-3">
-          <Button type="button" variant="outline" size="sm" onClick={() => router.push("/products")}>
-            <ArrowLeft className="mr-1 h-4 w-4" /> Back to Products
-          </Button>
-          <h2 className="text-lg font-bold text-navy-950">
-            {isEditing ? `Edit: ${initialData?.name}` : "Create New Product"}
-          </h2>
+    <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
+      {/* Breadcrumbs matching Screen 4 */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2 text-xs font-semibold text-slate-500">
+          <Link href="/products" className="hover:text-slate-900 transition-colors">
+            Products
+          </Link>
+          <span>&gt;</span>
+          <span className="text-[#0062E3]">{isEditing ? "Edit Product" : "Add Product"}</span>
         </div>
 
-        <div className="flex items-center space-x-3 w-full sm:w-auto">
-          {isEditing && slug && (
-            <a
-              href={`${publicSiteUrl}/products/${slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded border border-navy-300 bg-white px-3 py-1.5 text-xs font-semibold text-navy-700 hover:bg-navy-50"
-            >
-              <Eye className="mr-1.5 h-3.5 w-3.5 text-navy-500" /> View on Site
-            </a>
-          )}
-          <Button
-            type="button"
-            variant="outline"
-            onClick={(e) => handleSubmit(e, "draft")}
-            isLoading={isCreating || isUpdating}
+        {isEditing && slug && (
+          <a
+            href={`http://localhost:3000/products/${slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
           >
-            <Save className="mr-1.5 h-4 w-4" /> Save Draft
-          </Button>
-          <Button
-            type="button"
-            variant="primary"
-            onClick={(e) => (isEditing ? handlePublish() : handleSubmit(e, "published"))}
-            isLoading={isCreating || isUpdating || isPublishing}
-          >
-            <Globe className="mr-1.5 h-4 w-4" /> Publish Product
-          </Button>
-        </div>
+            <Eye className="mr-1.5 h-3.5 w-3.5 text-slate-400" /> View on Live Site
+          </a>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main 2-Column Inputs */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Basic Info Box */}
-          <div className="rounded-lg border border-navy-200 bg-white p-6 shadow-sm space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-navy-900 border-b border-navy-100 pb-2">
-              Basic Product Information
-            </h3>
+      {/* Tab Navigation Pill Bar matching Screen 4 */}
+      <div className="flex items-center space-x-2 border-b border-slate-200 pb-3">
+        {[
+          { id: "basic", label: "Basic Info" },
+          { id: "specs", label: "Specifications" },
+          { id: "images", label: "Images" },
+          { id: "seo", label: "SEO" },
+          { id: "publishing", label: "Publishing" },
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            onClick={() => setActiveTab(tab.id as any)}
+            className={`rounded-lg px-4 py-1.5 text-xs font-bold transition-all ${
+              activeTab === tab.id
+                ? "bg-[#0062E3] text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
 
+      {/* Tab Content: Basic Info */}
+      {activeTab === "basic" && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left 2 Columns: Inputs */}
+          <div className="lg:col-span-2 space-y-4 rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
                 label="Product Code *"
-                placeholder="e.g. 1-FEGI"
+                placeholder="1-FEGI"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 error={errors.code}
@@ -205,7 +217,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
 
               <Input
                 label="Product Name *"
-                placeholder="e.g. GI Earthing Electrode"
+                placeholder="GI Earthing Electrode"
                 value={name}
                 onChange={(e) => handleNameChange(e.target.value)}
                 error={errors.name}
@@ -214,8 +226,8 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
-                label="URL Slug *"
-                placeholder="e.g. gi-earthing-electrode"
+                label="Slug *"
+                placeholder="gi-earthing-electrode"
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
                 error={errors.slug}
@@ -230,159 +242,210 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
               />
             </div>
 
-            <Input
-              label="Product Badge / Tag"
-              placeholder="e.g. High Durability, Popular Choice, NABL Tested"
-              value={tag}
-              onChange={(e) => setTag(e.target.value)}
-            />
-
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-navy-700 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Short Description
               </label>
               <textarea
                 rows={2}
-                placeholder="Brief summary for product card..."
+                placeholder="High quality GI earthing electrode for industrial safety..."
                 value={shortDescription}
                 onChange={(e) => setShortDescription(e.target.value)}
-                className="w-full rounded border border-navy-300 p-3 text-sm focus:border-navy-700 focus:outline-none focus:ring-1"
+                className="w-full rounded-lg border border-slate-300 p-3 text-xs text-slate-900 focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-navy-700 mb-1">
-                Full Technical Description *
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                Description *
               </label>
               <textarea
-                rows={5}
-                placeholder="Comprehensive technical details..."
+                rows={4}
+                placeholder="Our GI Earthing Electrodes are manufactured using high grade pipes to ensure high conductivity and corrosion resistance..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full rounded border border-navy-300 p-3 text-sm focus:border-navy-700 focus:outline-none focus:ring-1"
+                className="w-full rounded-lg border border-slate-300 p-3 text-xs text-slate-900 focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none transition-all"
               />
               {errors.description && <p className="text-xs text-red-600 font-medium mt-1">{errors.description}</p>}
             </div>
+
+            {/* Features Bullet List matching Screen 4 */}
+            <div className="pt-2">
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-bold text-slate-700">Features</label>
+                <button
+                  type="button"
+                  onClick={() => setFeatures([...features, ""])}
+                  className="text-xs font-bold text-[#0062E3] hover:underline flex items-center"
+                >
+                  <Plus className="h-3 w-3 mr-1" /> Add Feature
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                {features.map((feat, idx) => (
+                  <div key={idx} className="flex items-center space-x-2">
+                    <div className="h-2 w-2 rounded-full bg-slate-400 flex-shrink-0" />
+                    <Input
+                      placeholder="e.g. Hot dip galvanized for long life"
+                      value={feat}
+                      onChange={(e) => {
+                        const updated = [...features];
+                        updated[idx] = e.target.value;
+                        setFeatures(updated);
+                      }}
+                      className="py-1.5 text-xs"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setFeatures(features.filter((_, i) => i !== idx))}
+                      className="text-slate-400 hover:text-red-500 p-1"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Key Features */}
-          <div className="rounded-lg border border-navy-200 bg-white p-6 shadow-sm space-y-4">
-            <div className="flex items-center justify-between border-b border-navy-100 pb-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-navy-900">Key Features</h3>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setFeatures([...features, ""])}
-              >
-                <Plus className="mr-1 h-3.5 w-3.5" /> Add Feature
-              </Button>
-            </div>
+          {/* Right Column: Product Image Box matching Screen 4 */}
+          <div className="space-y-4">
+            <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-xs space-y-4 text-center">
+              <label className="block text-xs font-bold text-slate-700 text-left">Product Image</label>
+              
+              <div className="h-48 w-full rounded-lg border border-slate-200 bg-slate-50/50 p-4 flex items-center justify-center overflow-hidden">
+                {primaryImage ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={primaryImage} alt={name} className="h-full w-full object-contain" />
+                ) : (
+                  <ImageIcon className="h-12 w-12 text-slate-300" />
+                )}
+              </div>
 
-            <div className="space-y-2">
-              {features.map((feat, idx) => (
-                <div key={idx} className="flex items-center space-x-2">
-                  <Input
-                    placeholder="e.g. Hot dip galvanized for maximum corrosion protection"
-                    value={feat}
-                    onChange={(e) => {
-                      const updated = [...features];
-                      updated[idx] = e.target.value;
-                      setFeatures(updated);
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setFeatures(features.filter((_, i) => i !== idx))}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+              <Link href="/media" className="inline-block w-full">
+                <Button type="button" variant="outline" size="sm" className="w-full">
+                  Change Image
+                </Button>
+              </Link>
+
+              {/* Mini Thumbnails */}
+              {images.length > 1 && (
+                <div className="flex items-center justify-center space-x-2 pt-1 overflow-x-auto">
+                  {images.map((img, i) => (
+                    <div key={i} className="h-10 w-10 rounded border border-slate-200 p-0.5 overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={img.url} alt="" className="h-full w-full object-contain" />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Specifications Component */}
-          <div className="rounded-lg border border-navy-200 bg-white p-6 shadow-sm">
-            <ProductSpecifications specs={specs} onChange={setSpecs} />
-          </div>
-
-          {/* Product Images Component */}
-          <div className="rounded-lg border border-navy-200 bg-white p-6 shadow-sm">
-            <ProductImages images={images} onChange={setImages} />
-          </div>
-        </div>
-
-        {/* Sidebar Settings (1 Column) */}
-        <div className="space-y-6">
-          {/* Status & Options */}
-          <div className="rounded-lg border border-navy-200 bg-white p-6 shadow-sm space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-navy-900 border-b border-navy-100 pb-2">
-              Publishing & Visibility
-            </h3>
-
-            <Select
-              label="Content Status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value as ContentStatus)}
-              options={[
-                { label: "Draft", value: "draft" },
-                { label: "Published", value: "published" },
-                { label: "Archived", value: "archived" },
-              ]}
-            />
-
-            <div className="flex items-center space-x-3 pt-2">
-              <input
-                type="checkbox"
-                id="featured"
-                checked={featured}
-                onChange={(e) => setFeatured(e.target.checked)}
-                className="h-4 w-4 rounded border-navy-300 text-brand focus:ring-brand"
-              />
-              <label htmlFor="featured" className="text-xs font-semibold text-navy-800 cursor-pointer">
-                Feature on Home Page
-              </label>
-            </div>
-
-            <Input
-              label="Display Order / Weight"
-              type="number"
-              value={displayOrder}
-              onChange={(e) => setDisplayOrder(Number(e.target.value))}
-            />
-          </div>
-
-          {/* SEO Metadata */}
-          <div className="rounded-lg border border-navy-200 bg-white p-6 shadow-sm space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-navy-900 border-b border-navy-100 pb-2">
-              Search Engine Optimization (SEO)
-            </h3>
-
-            <Input
-              label="Meta Title"
-              placeholder="Custom page title for Google..."
-              value={seoTitle}
-              onChange={(e) => setSeoTitle(e.target.value)}
-            />
-
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-navy-700 mb-1">
-                Meta Description
-              </label>
-              <textarea
-                rows={3}
-                placeholder="Google search result snippet..."
-                value={seoDescription}
-                onChange={(e) => setSeoDescription(e.target.value)}
-                className="w-full rounded border border-navy-300 p-2.5 text-xs text-navy-900 focus:border-navy-700 focus:outline-none"
-              />
+              )}
             </div>
           </div>
         </div>
+      )}
+
+      {/* Tab Content: Specifications */}
+      {activeTab === "specs" && (
+        <div className="rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs">
+          <ProductSpecifications specs={specs} onChange={setSpecs} />
+        </div>
+      )}
+
+      {/* Tab Content: Images */}
+      {activeTab === "images" && (
+        <div className="rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs">
+          <ProductImages images={images} onChange={setImages} />
+        </div>
+      )}
+
+      {/* Tab Content: SEO */}
+      {activeTab === "seo" && (
+        <div className="rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs space-y-4 max-w-2xl">
+          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
+            Search Engine Optimization (SEO)
+          </h3>
+          <Input
+            label="Meta Title"
+            placeholder="Custom page title for Google..."
+            value={seoTitle}
+            onChange={(e) => setSeoTitle(e.target.value)}
+          />
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5">Meta Description</label>
+            <textarea
+              rows={3}
+              placeholder="Google search result snippet..."
+              value={seoDescription}
+              onChange={(e) => setSeoDescription(e.target.value)}
+              className="w-full rounded-lg border border-slate-300 p-2.5 text-xs text-slate-900 focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Tab Content: Publishing */}
+      {activeTab === "publishing" && (
+        <div className="rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs space-y-4 max-w-md">
+          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
+            Publishing Status & Visibility
+          </h3>
+          <Select
+            label="Content Status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value as ContentStatus)}
+            options={[
+              { label: "Draft", value: "draft" },
+              { label: "Published", value: "published" },
+              { label: "Archived", value: "archived" },
+            ]}
+          />
+          <div className="flex items-center space-x-3 pt-2">
+            <input
+              type="checkbox"
+              id="featured"
+              checked={featured}
+              onChange={(e) => setFeatured(e.target.checked)}
+              className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+            />
+            <label htmlFor="featured" className="text-xs font-semibold text-slate-800 cursor-pointer">
+              Feature on Home Page
+            </label>
+          </div>
+          <Input
+            label="Display Order"
+            type="number"
+            value={displayOrder}
+            onChange={(e) => setDisplayOrder(Number(e.target.value))}
+          />
+        </div>
+      )}
+
+      {/* Bottom Action Bar matching Screen 4: Save Draft, Publish, Cancel */}
+      <div className="flex items-center justify-end space-x-3 border-t border-slate-200 pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.push("/products")}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={(e) => handleSubmit(e, "draft")}
+          isLoading={isCreating || isUpdating}
+        >
+          <Save className="mr-1.5 h-4 w-4" /> Save Draft
+        </Button>
+        <Button
+          type="button"
+          variant="primary"
+          onClick={(e) => (isEditing ? handlePublish() : handleSubmit(e, "published"))}
+          isLoading={isCreating || isUpdating || isPublishing}
+        >
+          <Globe className="mr-1.5 h-4 w-4" /> Publish
+        </Button>
       </div>
     </form>
   );

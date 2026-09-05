@@ -10,7 +10,7 @@ import { Modal } from "../../../components/ui/Modal";
 import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
 import { TableSkeleton } from "../../../components/ui/Skeleton";
 import { useToast } from "../../../components/ui/Toast";
-import { Building2, Plus, Edit2, Trash2, MapPin } from "lucide-react";
+import { Building2, Plus, Edit2, Trash2, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
 
 export default function OfficesPage() {
   const { toast } = useToast();
@@ -30,6 +30,43 @@ export default function OfficesPage() {
   const [email, setEmail] = useState("");
   const [mapUrl, setMapUrl] = useState("");
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+
+  const defaultOffices: Office[] = [
+    {
+      id: "off-1",
+      name: "Corporate Office (Headquarters)",
+      office_type: "corporate",
+      address: "Plot No. 799(P), Shyampur, Near SUM Hospital",
+      city: "Bhubaneswar",
+      state: "Odisha",
+      postal_code: "751003",
+      country: "India",
+      phones: ["+91 7978208852", "+91 9658264263"],
+      emails: ["sales@forecastearthings.com"],
+      map_url: "https://maps.google.com",
+      is_primary: true,
+      enabled: true,
+      display_order: 1,
+    },
+    {
+      id: "off-2",
+      name: "Regional Branch Office",
+      office_type: "regional",
+      address: "Aina Seeni, Near Vidhan Sabha, Ring Road No. 3",
+      city: "Raipur",
+      state: "Chhattisgarh",
+      postal_code: "492101",
+      country: "India",
+      phones: ["+91 7978208852", "+91 9658264263"],
+      emails: ["sales@forecastearthings.com"],
+      map_url: "https://maps.google.com",
+      is_primary: false,
+      enabled: true,
+      display_order: 2,
+    },
+  ];
+
+  const displayOffices = offices.length > 0 ? offices : defaultOffices;
 
   const handleOpenCreate = () => {
     setEditingOffice(null);
@@ -108,19 +145,20 @@ export default function OfficesPage() {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-navy-950">Office Locations</h2>
-        <TableSkeleton rows={3} cols={4} />
+        <h2 className="text-lg font-bold text-slate-900">Office Locations</h2>
+        <TableSkeleton rows={2} cols={2} />
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between border-b border-navy-200 pb-4">
+      {/* Header matching Screen 8 */}
+      <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-navy-950">Office Locations Management</h2>
-          <p className="text-xs text-navy-500 font-medium">
-            Manage Corporate HQ and Regional Branches displayed on the Contact page.
+          <h1 className="text-xl font-bold tracking-tight text-slate-900">Office Information</h1>
+          <p className="text-xs text-slate-500 font-medium mt-0.5">
+            Manage company offices and contact details
           </p>
         </div>
         <Button variant="primary" size="sm" onClick={handleOpenCreate}>
@@ -128,40 +166,80 @@ export default function OfficesPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {offices.map((off) => (
-          <div key={off.id} className="rounded-lg border border-navy-200 bg-white p-6 shadow-sm space-y-3">
-            <div className="flex items-center justify-between border-b border-navy-100 pb-2">
-              <div className="flex items-center space-x-2">
-                <Building2 className="h-5 w-5 text-brand" />
-                <h3 className="text-sm font-bold text-navy-950">{off.name}</h3>
+      {/* Office Cards matching Screen 8 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {displayOffices.map((off) => {
+          const isPrimary = off.office_type === "corporate";
+          return (
+            <div
+              key={off.id}
+              className="rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs hover:shadow-sm transition-all space-y-4 flex flex-col justify-between"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <h3 className="text-sm font-bold text-slate-900">{off.name}</h3>
+                  {isPrimary && (
+                    <span className="rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-wide">
+                      Primary
+                    </span>
+                  )}
+                </div>
+
+                <div className="space-y-2 text-xs text-slate-600">
+                  <div className="flex items-start space-x-2">
+                    <MapPin className="h-4 w-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                    <span>
+                      {off.address}, {off.city} - {off.postal_code}, {off.state}, {off.country}
+                    </span>
+                  </div>
+
+                  {off.phones && off.phones.length > 0 && (
+                    <div className="flex items-center space-x-2">
+                      <Phone className="h-4 w-4 text-slate-400 flex-shrink-0" />
+                      <span className="font-mono text-slate-700">{off.phones.join("   ")}</span>
+                    </div>
+                  )}
+
+                  {off.emails && off.emails.length > 0 && (
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-4 w-4 text-slate-400 flex-shrink-0" />
+                      <span className="text-[#0062E3] font-medium">{off.emails.join(", ")}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-              <span className="rounded bg-navy-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-navy-800">
-                {off.office_type}
-              </span>
-            </div>
 
-            <div className="text-xs text-navy-600 space-y-1">
-              <p className="flex items-start">
-                <MapPin className="h-4 w-4 mr-1.5 text-navy-400 flex-shrink-0 mt-0.5" />
-                <span>
-                  {off.address}, {off.city}, {off.state} - {off.postal_code}
-                </span>
-              </p>
-              <p>Phones: {off.phones?.join(", ") || "—"}</p>
-              <p>Email: {off.emails?.join(", ") || "—"}</p>
-            </div>
+              {/* Bottom Card Actions matching Screen 8: View on Map, Edit */}
+              <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                <div className="flex items-center space-x-2">
+                  <a
+                    href={off.map_url || "https://maps.google.com"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors shadow-2xs"
+                  >
+                    <MapPin className="h-3.5 w-3.5 text-[#0062E3]" /> View on Map
+                  </a>
 
-            <div className="flex justify-end space-x-2 pt-2 border-t border-navy-100">
-              <Button variant="outline" size="sm" onClick={() => handleOpenEdit(off)}>
-                <Edit2 className="mr-1 h-3.5 w-3.5" /> Edit
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setDeleteTargetId(off.id)} className="text-red-600">
-                <Trash2 className="h-3.5 w-3.5" /> Delete
-              </Button>
+                  <button
+                    onClick={() => handleOpenEdit(off)}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition-colors shadow-2xs"
+                  >
+                    <Edit2 className="h-3.5 w-3.5 text-slate-400" /> Edit
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => setDeleteTargetId(off.id)}
+                  className="inline-flex p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  title="Delete Office"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <Modal
@@ -172,7 +250,7 @@ export default function OfficesPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="Office Full Name *"
-            placeholder="e.g. FORECAST EARTHINGS PVT. LTD. - Corporate HQ"
+            placeholder="e.g. Corporate Office (Headquarters)"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -214,7 +292,7 @@ export default function OfficesPage() {
 
           <Input label="Google Maps Link URL" value={mapUrl} onChange={(e) => setMapUrl(e.target.value)} />
 
-          <div className="flex justify-end space-x-2 pt-4 border-t border-navy-100">
+          <div className="flex justify-end space-x-2 pt-4 border-t border-slate-100">
             <Button type="button" variant="outline" onClick={() => setModalOpen(false)}>
               Cancel
             </Button>

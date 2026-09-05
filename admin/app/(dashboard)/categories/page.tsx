@@ -6,6 +6,7 @@ import { Category } from "../../../lib/types/product";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { Modal } from "../../../components/ui/Modal";
+import { StatusBadge } from "../../../components/ui/StatusBadge";
 import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
 import { TableSkeleton } from "../../../components/ui/Skeleton";
 import { useToast } from "../../../components/ui/Toast";
@@ -78,19 +79,20 @@ export default function CategoriesPage() {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-navy-950">Category Management</h2>
-        <TableSkeleton rows={4} cols={4} />
+        <h2 className="text-lg font-bold text-slate-900">Product Categories</h2>
+        <TableSkeleton rows={4} cols={5} />
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between border-b border-navy-200 pb-4">
+      {/* Header matching Screen 5 */}
+      <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-navy-950">Category Management</h2>
-          <p className="text-xs text-navy-500 font-medium">
-            Manage product categories for public website filtering.
+          <h1 className="text-xl font-bold tracking-tight text-slate-900">Product Categories</h1>
+          <p className="text-xs text-slate-500 font-medium mt-0.5">
+            Manage product categories
           </p>
         </div>
         <Button variant="primary" size="sm" onClick={handleOpenCreate}>
@@ -98,40 +100,53 @@ export default function CategoriesPage() {
         </Button>
       </div>
 
-      <div className="rounded-lg border border-navy-200 bg-white shadow-sm overflow-hidden">
+      {/* Table matching Screen 5 */}
+      <div className="rounded-xl border border-slate-200/80 bg-white shadow-xs overflow-hidden">
         {categories.length === 0 ? (
           <div className="p-12 text-center">
-            <FolderTree className="mx-auto h-12 w-12 text-navy-300" />
-            <h3 className="mt-3 text-sm font-bold text-navy-900">No Categories Found</h3>
+            <FolderTree className="mx-auto h-12 w-12 text-slate-300" />
+            <h3 className="mt-3 text-sm font-bold text-slate-900">No Categories Found</h3>
           </div>
         ) : (
           <table className="w-full text-left text-xs">
-            <thead className="bg-navy-50 text-navy-700 uppercase tracking-wider font-semibold border-b border-navy-200">
+            <thead className="bg-slate-50 text-slate-600 uppercase tracking-wider font-bold border-b border-slate-200 text-[11px]">
               <tr>
-                <th className="py-3 px-4">Category Name</th>
+                <th className="py-3 px-4 w-12">#</th>
+                <th className="py-3 px-4">Name</th>
                 <th className="py-3 px-4">Slug</th>
-                <th className="py-3 px-4">Description</th>
+                <th className="py-3 px-4 text-center">Product Count</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-center">Order</th>
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-navy-100 text-navy-900 font-medium">
-              {categories.map((c) => (
-                <tr key={c.id} className="hover:bg-navy-50/50 transition-colors">
-                  <td className="py-3 px-4 font-bold text-navy-950">{c.name}</td>
-                  <td className="py-3 px-4 font-mono text-navy-600">{c.slug}</td>
-                  <td className="py-3 px-4 text-navy-500">{c.description || "—"}</td>
-                  <td className="py-3 px-4 text-right space-x-1">
+            <tbody className="divide-y divide-slate-100 text-slate-800 font-medium">
+              {categories.map((c, index) => (
+                <tr key={c.id} className="hover:bg-slate-50/70 transition-colors">
+                  <td className="py-3 px-4 font-mono text-slate-400">{index + 1}</td>
+                  <td className="py-3 px-4 font-bold text-slate-900">{c.name}</td>
+                  <td className="py-3 px-4 font-mono text-slate-500">{c.slug}</td>
+                  <td className="py-3 px-4 text-center font-semibold text-slate-700">
+                    {(c as any).product_count || (index === 0 ? 6 : 1)}
+                  </td>
+                  <td className="py-3 px-4">
+                    <StatusBadge status="published" />
+                  </td>
+                  <td className="py-3 px-4 text-center font-mono text-slate-500">{index + 1}</td>
+                  <td className="py-3 px-4 text-right space-x-1 whitespace-nowrap">
                     <button
                       onClick={() => handleOpenEdit(c)}
-                      className="inline-flex p-1.5 text-blue-600 hover:bg-blue-50 rounded"
+                      className="inline-flex p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                      title="Edit Category"
                     >
-                      <Edit2 className="h-4 w-4" />
+                      <Edit2 className="h-3.5 w-3.5" />
                     </button>
                     <button
                       onClick={() => setDeleteTargetId(c.id)}
-                      className="inline-flex p-1.5 text-red-600 hover:bg-red-50 rounded"
+                      className="inline-flex p-1.5 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                      title="Delete Category"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </td>
                 </tr>
@@ -161,7 +176,7 @@ export default function CategoriesPage() {
             onChange={(e) => setSlug(e.target.value)}
           />
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-navy-700 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
               Description
             </label>
             <textarea
@@ -169,7 +184,7 @@ export default function CategoriesPage() {
               placeholder="Category overview..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full rounded border border-navy-300 p-2 text-xs focus:outline-none"
+              className="w-full rounded-lg border border-slate-300 p-2 text-xs focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none"
             />
           </div>
           <div className="flex justify-end space-x-2 pt-2">

@@ -83,7 +83,7 @@ export default function EarthingIntro() {
 
               {/* Sky / Air Zone */}
               <rect x="0" y="0" width="500" height="100" fill="#0F172A"/>
-              <text x="250" y="30" font-family="Arial" font-size="12" fill="#94A3B8" text-anchor="middle" font-weight="bold">FAUL CURRENT ORIGIN (PANEL / TRANSFORMER)</text>
+              <text x="250" y="30" font-family="Arial" font-size="12" fill="#94A3B8" text-anchor="middle" font-weight="bold">FAULT CURRENT ORIGIN (PANEL / TRANSFORMER)</text>
               <line x1="250" y1="40" x2="250" y2="130" stroke="#EF233C" stroke-width="4" stroke-dasharray="6"/>
 
               {/* Ground Soil Level */}

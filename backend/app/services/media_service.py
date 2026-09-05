@@ -9,6 +9,16 @@ from fastapi import UploadFile
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
 
+import asyncio
+try:
+    import cloudinary
+    import cloudinary.uploader
+    from cloudinary.utils import cloudinary_url
+    HAS_CLOUDINARY = True
+except ImportError:
+    HAS_CLOUDINARY = False
+    cloudinary = None
+
 from app.core.config import settings
 from app.core.exceptions import BadRequestException, NotFoundException
 
@@ -26,7 +36,7 @@ class MediaStorage(ABC):
         pass
 
     @abstractmethod
-    async def delete_file(self, filepath: str) -> bool:
+    async def delete_file(self, filename: str) -> bool:
         pass
 
 class LocalMediaStorage(MediaStorage):
@@ -57,8 +67,71 @@ class LocalMediaStorage(MediaStorage):
             return True
         return False
 
+class CloudinaryMediaStorage(MediaStorage):
+    def __init__(self):
+        cloudinary.config(
+            cloud_name=settings.CLOUDINARY_CLOUD_NAME,
+            api_key=settings.CLOUDINARY_API_KEY,
+            api_secret=settings.CLOUDINARY_API_SECRET,
+            secure=True
+        )
+        self.folder = getattr(settings, "CLOUDINARY_FOLDER", "forecast_earthings")
+
+    async def save_file(self, file: UploadFile, filename: str) -> str:
+        base_name = os.path.splitext(filename)[0]
+        file.file.seek(0)
+
+        def _upload():
+            return cloudinary.uploader.upload(
+                file.file,
+                public_id=base_name,
+                folder=self.folder,
+                resource_type="auto",
+                overwrite=True
+            )
+
+        result = await asyncio.to_thread(_upload)
+        return result.get("secure_url") or result.get("url")
+
+    async def delete_file(self, identifier: str) -> bool:
+        try:
+            if "res.cloudinary.com" in identifier:
+                parts = identifier.split("/")
+                idx = -1
+                for i, p in enumerate(parts):
+                    if p == "upload":
+                        idx = i
+                        break
+                if idx != -1:
+                    subparts = parts[idx + 1:]
+                    if subparts and subparts[0].startswith("v") and subparts[0][1:].isdigit():
+                        subparts = subparts[1:]
+                    raw_id = "/".join(subparts)
+                    public_id = os.path.splitext(raw_id)[0]
+                else:
+                    public_id = os.path.splitext(parts[-1])[0]
+            else:
+                base_name = os.path.splitext(identifier)[0]
+                if "/" in base_name:
+                    public_id = base_name
+                else:
+                    public_id = f"{self.folder}/{base_name}"
+
+            def _destroy():
+                return cloudinary.uploader.destroy(public_id)
+
+            res = await asyncio.to_thread(_destroy)
+            return res.get("result") in ["ok", "not found"]
+        except Exception:
+            return False
+
+def get_media_storage() -> MediaStorage:
+    if settings.MEDIA_STORAGE_TYPE == "cloudinary" and HAS_CLOUDINARY:
+        return CloudinaryMediaStorage()
+    return LocalMediaStorage()
+
 class MediaService:
-    storage: MediaStorage = LocalMediaStorage()
+    storage: MediaStorage = get_media_storage()
 
     @classmethod
     async def upload_media(

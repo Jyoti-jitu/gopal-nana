@@ -24,10 +24,20 @@ const config: Config = {
           900: "#102a43",
           950: "#0b192c",
         },
+        sidebar: {
+          DEFAULT: "#08172c",
+          dark: "#050f1d",
+          hover: "#0f2442",
+          active: "#0062e3",
+          border: "#122a4d",
+          text: "#94a3b8",
+        },
         brand: {
-          DEFAULT: "#0052CC",
+          DEFAULT: "#0062E3",
+          hover: "#0052C2",
           dark: "#003D99",
-          light: "#2572E6",
+          light: "#3B82F6",
+          accent: "#EF4444",
         }
       },
     },

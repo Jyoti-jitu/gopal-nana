@@ -150,9 +150,29 @@ Once the server is running, interactive API docs are available at:
 
 ## 🐳 Docker Support
 
-Build and run using Docker:
+The backend includes a production-ready, multi-stage Docker setup with health checks, unprivileged user security, and Gunicorn concurrency.
 
+### Run with Docker Compose (Production)
 ```bash
-docker build -t forecast-backend .
-docker run -p 8000:8000 --env-file .env forecast-backend
+docker compose up -d --build
 ```
+
+### Run with Live Code Reload (Development)
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+### Direct Docker Commands
+```bash
+# Build production image
+docker build -t forecast-earthings-backend .
+
+# Run container with environment file
+docker run -d \
+  --name forecast-backend \
+  -p 8000:8000 \
+  --env-file .env \
+  forecast-earthings-backend
+```
+
+For complete instructions, refer to the [DOCKER.md](file:///c:/Users/ASUS/Desktop/PROJECT/backend/DOCKER.md) guide.

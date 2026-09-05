@@ -118,5 +118,6 @@ async def health_check(db: AsyncIOMotorDatabase = Depends(get_database)):
     return {
         "status": "ok",
         "database": db_status,
-        "version": settings.VERSION
+        "version": settings.VERSION,
+        "media_storage": settings.MEDIA_STORAGE_TYPE
     }
