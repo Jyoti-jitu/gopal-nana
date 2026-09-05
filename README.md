@@ -106,18 +106,23 @@ Positioned on the **Installation Page** (`/installation`) and **Product Page** (
 
 ## 💻 Quick Start & Development
 
-### 1. Install Dependencies
+### 1. Change to Frontend Directory
+```bash
+cd frontend
+```
+
+### 2. Install Dependencies
 ```bash
 npm install
 ```
 
-### 2. Run Development Server
+### 3. Run Development Server
 ```bash
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your web browser.
 
-### 3. Build & Production Verification
+### 4. Build & Production Verification
 ```bash
 # Typecheck
 npx tsc --noEmit
@@ -135,9 +140,9 @@ npm start
 
 To switch from mock data to a live FastAPI REST backend:
 
-1. Open `lib/api.ts`.
+1. Open `frontend/lib/api.ts`.
 2. Set `const USE_MOCK_DATA = false;`.
-3. Set environment variable in `.env.local`:
+3. Set environment variable in `frontend/.env.local`:
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:8000
    ```
