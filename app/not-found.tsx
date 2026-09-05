@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { ArrowLeft, Home, Search, ShieldAlert } from "lucide-react";
+import { Home, Search, ShieldAlert } from "lucide-react";
 
 export default function NotFound() {
   return (

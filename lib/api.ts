@@ -1,5 +1,5 @@
 import { Product, Category, EnquiryPayload, EnquiryResponse } from "./types";
-import { PRODUCTS, CATEGORIES, getProductBySlug, getProductsByCategory } from "./products";
+import { CATEGORIES, getProductBySlug, getProductsByCategory } from "./products";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 const USE_MOCK_DATA = true; // Toggle to false when FastAPI backend is live
