@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1120"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="glowRed" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D90429" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#EF233C" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="electricGlow" cx="75%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.3"/>
+      <stop offset="40%" stop-color="#0284C7" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0B1120" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Base Dark Background -->
+  <rect width="1920" height="1080" fill="url(#bgGradient)"/>
+  <rect width="1920" height="1080" fill="url(#electricGlow)"/>
+
+  <!-- Technical Circuit & Grid Lines -->
+  <g opacity="0.08" stroke="#FFFFFF" stroke-width="1">
+    <pattern id="techGrid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="none"/>
+      <path d="M 80 0 L 0 0 0 80"/>
+      <circle cx="80" cy="80" r="2" fill="#FFFFFF"/>
+    </pattern>
+    <rect width="1920" height="1080" fill="url(#techGrid)"/>
+  </g>
+
+  <!-- High-Voltage Lightning Bolt Graphic -->
+  <g opacity="0.85" stroke="#38BDF8" stroke-width="3" fill="none" stroke-linejoin="round">
+    <!-- Main Thunderbolt Branch -->
+    <path d="M 1450 -50 L 1380 180 L 1420 180 L 1320 380 L 1370 380 L 1240 620 L 1290 620 L 1180 850 L 1220 850 L 1150 1100" filter="drop-shadow(0 0 12px #0284C7)"/>
+    <!-- Secondary Branch -->
+    <path d="M 1320 380 L 1220 480 L 1250 480 L 1180 600" opacity="0.6"/>
+  </g>
+
+  <!-- Substation / Electrical Tower Silhouette -->
+  <g fill="#0F172A" opacity="0.9" transform="translate(1300, 480)">
+    <!-- Tower Structure -->
+    <polygon points="200,600 350,600 300,0 250,0"/>
+    <line x1="250" y1="100" x2="350" y2="100" stroke="#1E293B" stroke-width="6"/>
+    <line x1="220" y1="250" x2="380" y2="250" stroke="#1E293B" stroke-width="8"/>
+    <line x1="180" y1="420" x2="420" y2="420" stroke="#1E293B" stroke-width="10"/>
+  </g>
+
+  <!-- Red Ground Safety Ray -->
+  <rect x="0" y="1050" width="1920" height="30" fill="url(#glowRed)"/>
+</svg>

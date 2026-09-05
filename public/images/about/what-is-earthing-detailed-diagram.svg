@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <!-- Color Gradients -->
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.0"/>
+    </linearGradient>
+    <linearGradient id="topSoilGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78350F"/>
+      <stop offset="100%" stop-color="#451A03"/>
+    </linearGradient>
+    <linearGradient id="subSoilGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#451A03"/>
+      <stop offset="100%" stop-color="#1C1917"/>
+    </linearGradient>
+    <linearGradient id="compoundGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="copperRod" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B45309"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="70%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </linearGradient>
+    <linearGradient id="giRod" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94A3B8"/>
+      <stop offset="50%" stop-color="#E2E8F0"/>
+      <stop offset="100%" stop-color="#64748B"/>
+    </linearGradient>
+
+    <!-- Glow Filter for Electrical Energy Discharge -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Dark Background Canvas -->
+  <rect width="800" height="600" rx="16" fill="url(#bgDark)" stroke="#334155" stroke-width="2"/>
+
+  <!-- Top Ambient Sky Glow -->
+  <rect x="0" y="0" width="800" height="200" fill="url(#skyGrad)"/>
+
+  <!-- Technical Grid Overlay -->
+  <g opacity="0.05">
+    <path d="M 0 50 H 800 M 0 100 H 800 M 0 150 H 800 M 0 200 H 800 M 0 250 H 800 M 0 300 H 800 M 0 350 H 800 M 0 400 H 800 M 0 450 H 800 M 0 500 H 800 M 0 550 H 800" stroke="#FFFFFF" stroke-width="1"/>
+    <path d="M 100 0 V 600 M 200 0 V 600 M 300 0 V 600 M 400 0 V 600 M 500 0 V 600 M 600 0 V 600 M 700 0 V 600" stroke="#FFFFFF" stroke-width="1"/>
+  </g>
+
+  <!-- Ground Level Baseline Line -->
+  <line x1="50" y1="200" x2="750" y2="200" stroke="#10B981" stroke-width="3" stroke-dasharray="6 4"/>
+  <text x="60" y="190" fill="#10B981" font-family="sans-serif" font-size="12" font-weight="bold">GROUND LEVEL (0.0m)</text>
+
+  <!-- Underground Soil Strata -->
+  <!-- Top Soil -->
+  <rect x="50" y="200" width="700" height="120" fill="url(#topSoilGrad)" opacity="0.85"/>
+  <text x="65" y="225" fill="#FDE68A" font-family="sans-serif" font-size="11" font-weight="bold">TOP SOIL LAYER (Moist Loam)</text>
+
+  <!-- Subsoil Deep Strata -->
+  <rect x="50" y="320" width="700" height="240" fill="url(#subSoilGrad)" opacity="0.95"/>
+  <text x="65" y="345" fill="#D97706" font-family="sans-serif" font-size="11" font-weight="bold">DEEP SUBSOIL &amp; ROCK STRATA</text>
+
+  <!-- Above Ground Structure / Power Equipment Box -->
+  <g transform="translate(180, 50)">
+    <!-- Building / Distribution Panel Box -->
+    <rect x="0" y="0" width="120" height="120" rx="8" fill="#1E293B" stroke="#38BDF8" stroke-width="2"/>
+    <rect x="15" y="15" width="90" height="40" rx="4" fill="#0F172A" stroke="#475569"/>
+    <circle cx="35" cy="35" r="6" fill="#EF4444"/>
+    <circle cx="60" cy="35" r="6" fill="#F59E0B"/>
+    <circle cx="85" cy="35" r="6" fill="#10B981"/>
+    <text x="60" y="80" fill="#E2E8F0" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">MAIN POWER</text>
+    <text x="60" y="95" fill="#94A3B8" font-family="sans-serif" font-size="10" text-anchor="middle">PANEL / APPLIANCE</text>
+
+    <!-- Fault Current Symbol -->
+    <polygon points="60,105 50,125 58,125 52,145 70,120 60,120" fill="#FACC15" filter="url(#glow)"/>
+  </g>
+
+  <!-- Heavy Copper Conductor Strip Running Down -->
+  <path d="M 240 170 V 230 H 400 V 260" fill="none" stroke="url(#copperRod)" stroke-width="6" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- Earth Pit Chamber (Polypropylene Cover) -->
+  <g transform="translate(330, 180)">
+    <rect x="0" y="0" width="140" height="40" rx="6" fill="#334155" stroke="#64748B" stroke-width="2"/>
+    <rect x="20" y="5" width="100" height="30" rx="4" fill="#1E293B" stroke="#0F172A"/>
+    <text x="70" y="24" fill="#F8FAFC" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">EARTH PIT COVER</text>
+  </g>
+
+  <!-- Bored Earth Hole with Backfill Compound -->
+  <rect x="350" y="220" width="100" height="320" rx="50" fill="url(#compoundGrad)" stroke="#64748B" stroke-width="2" stroke-dasharray="4 2"/>
+  <text x="400" y="250" fill="#94A3B8" font-family="sans-serif" font-size="10" font-weight="bold" text-anchor="middle">BACKFILL COMPOUND</text>
+  <text x="400" y="263" fill="#64748B" font-family="sans-serif" font-size="9" text-anchor="middle">(NABL Tested Low Resistivity)</text>
+
+  <!-- Chemical Earthing Electrode Rod Driven Deep into Hole -->
+  <!-- Outer Pipe -->
+  <rect x="388" y="250" width="24" height="270" rx="6" fill="url(#giRod)" stroke="#475569" stroke-width="1.5"/>
+  <!-- Inner Copper Core -->
+  <rect x="394" y="245" width="12" height="280" rx="4" fill="url(#copperRod)" stroke="#D97706" stroke-width="1" filter="url(#glow)"/>
+
+  <!-- Primary Terminal Lug Clamp -->
+  <rect x="380" y="250" width="40" height="16" rx="3" fill="#F59E0B" stroke="#78350F" stroke-width="1.5"/>
+  <circle cx="388" cy="258" r="3" fill="#78350F"/>
+  <circle cx="412" cy="258" r="3" fill="#78350F"/>
+
+  <!-- Fault Current Energy Waves Dissipating Underground into Soil -->
+  <g stroke="#FACC15" fill="none" filter="url(#glow)" opacity="0.9">
+    <!-- Radial Waves along rod length -->
+    <path d="M 375 320 Q 320 320 300 340 M 425 320 Q 480 320 500 340" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <path d="M 365 380 Q 290 380 260 410 M 435 380 Q 510 380 540 410" stroke-width="3" stroke-dasharray="6 4"/>
+    <path d="M 355 440 Q 260 440 220 480 M 445 440 Q 540 440 580 480" stroke-width="3.5" stroke-dasharray="8 4"/>
+    <path d="M 380 510 Q 320 550 280 570 M 420 510 Q 480 550 520 570" stroke-width="4" stroke-dasharray="10 5"/>
+
+    <!-- Arrowheads indicating energy dispersion -->
+    <polygon points="295,342 305,335 305,348" fill="#FACC15"/>
+    <polygon points="505,342 495,335 495,348" fill="#FACC15"/>
+    <polygon points="255,412 267,403 265,417" fill="#FACC15"/>
+    <polygon points="545,412 533,403 535,417" fill="#FACC15"/>
+    <polygon points="215,482 228,472 225,487" fill="#FACC15"/>
+    <polygon points="585,482 572,472 575,487" fill="#FACC15"/>
+  </g>
+
+  <!-- Annotations & Callouts -->
+  <!-- Callout 1: Low Resistance Dissipation -->
+  <g transform="translate(540, 310)">
+    <rect x="0" y="0" width="210" height="55" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="15" y="22" fill="#FACC15" font-family="sans-serif" font-size="12" font-weight="bold">SAFE FAULT DISSIPATION</text>
+    <text x="15" y="38" fill="#CBD5E1" font-family="sans-serif" font-size="10">Low Impedance Path (&lt; 1.0 Ohm)</text>
+    <line x1="0" y1="27" x2="-40" y2="40" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <circle cx="-40" cy="40" r="3" fill="#F59E0B"/>
+  </g>
+
+  <!-- Callout 2: Chemical Electrode -->
+  <g transform="translate(60, 420)">
+    <rect x="0" y="0" width="220" height="65" rx="8" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="15" y="22" fill="#38BDF8" font-family="sans-serif" font-size="12" font-weight="bold">CHEMICAL ELECTRODE ROD</text>
+    <text x="15" y="38" fill="#CBD5E1" font-family="sans-serif" font-size="10">Dual Pipe-in-Pipe / Solid Core</text>
+    <text x="15" y="52" fill="#94A3B8" font-family="sans-serif" font-size="10">250 Micron Molecular Copper Jacket</text>
+    <line x1="220" y1="32" x2="320" y2="32" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <circle cx="320" cy="32" r="3" fill="#38BDF8"/>
+  </g>
+
+  <!-- Callout 3: Backfill Compound -->
+  <g transform="translate(540, 450)">
+    <rect x="0" y="0" width="210" height="55" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+    <text x="15" y="22" fill="#10B981" font-family="sans-serif" font-size="12" font-weight="bold">NABL TESTED COMPOUND</text>
+    <text x="15" y="38" fill="#CBD5E1" font-family="sans-serif" font-size="10">Moisture Retaining Matrix</text>
+    <line x1="0" y1="27" x2="-60" y2="0" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <circle cx="-60" cy="0" r="3" fill="#10B981"/>
+  </g>
+
+  <!-- Title Badge Top Left -->
+  <g transform="translate(20, 20)">
+    <rect x="0" y="0" width="340" height="35" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+    <text x="15" y="23" fill="#38BDF8" font-family="sans-serif" font-size="12" font-weight="bold">TECHNICAL CUTAWAY DIAGRAM</text>
+    <text x="215" y="23" fill="#EF4444" font-family="sans-serif" font-size="12" font-weight="bold">• ELECTRICAL EARTHING</text>
+  </g>
+</svg>

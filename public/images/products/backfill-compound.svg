@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#E2E8F0"/></linearGradient>
+    <linearGradient id="bagWhite" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#CBD5E1"/></linearGradient>
+    <linearGradient id="brandRed" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#D90429"/><stop offset="100%" stop-color="#EF233C"/></linearGradient>
+  </defs>
+  <rect width="600" height="500" rx="16" fill="url(#bgGrad)"/>
+  <rect x="30" y="30" width="130" height="28" rx="6" fill="#0F172A"/>
+  <text x="95" y="49" font-family="Arial" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">CODE: 8-FEEG</text>
+
+  <g transform="translate(180, 50)">
+    <!-- Heavy Duty Compound Bag -->
+    <path d="M 40 40 L 200 40 L 220 380 L 20 380 Z" fill="url(#bagWhite)" stroke="#64748B" stroke-width="3"/>
+    <path d="M 20 40 Q 120 20 220 40 Z" fill="#94A3B8"/>
+    
+    <!-- Bag Label -->
+    <rect x="30" y="100" width="180" height="200" fill="#0F172A" rx="6"/>
+    <rect x="30" y="100" width="180" height="40" fill="url(#brandRed)" rx="6"/>
+    <text x="120" y="125" font-family="Arial" font-size="14" font-weight="900" fill="#FFFFFF" text-anchor="middle">FORECAST</text>
+
+    <text x="120" y="165" font-family="Arial" font-size="12" font-weight="bold" fill="#FFB703" text-anchor="middle">BACK FILL EARTH</text>
+    <text x="120" y="185" font-family="Arial" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">ENHANCEMENT</text>
+    <text x="120" y="205" font-family="Arial" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">COMPOUND</text>
+
+    <rect x="45" y="225" width="150" height="25" rx="12" fill="#166534"/>
+    <text x="120" y="242" font-family="Arial" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">NABL TESTED • 25 KG</text>
+  </g>
+</svg>
