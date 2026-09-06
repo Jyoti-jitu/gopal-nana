@@ -88,7 +88,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative h-12 w-56 sm:w-64">
               <Image
-                src={getCloudinaryUrl("/images/logo/logo.svg")}
+                src="https://res.cloudinary.com/bctl2gxd/image/upload/v1788686259/forecast_earthings/med_dd6eece70a2e.jpg"
                 alt="Forecast Earthings Pvt. Ltd. Logo"
                 fill
                 priority
