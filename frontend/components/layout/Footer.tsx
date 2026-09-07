@@ -33,7 +33,7 @@ export default function Footer() {
       {/* Background Skyline Image from mockup assets */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
         <Image
-          src={getCloudinaryUrl("/images/footer/footer-skyline-power-lines.webp")}
+          src="https://res.cloudinary.com/bctl2gxd/image/upload/v1788763992/ChatGPT_Image_Sep_7_2026_12_22_51_PM.png"
           alt="Electrical Power Line Skyline Background"
           fill
           className="object-cover object-bottom"
