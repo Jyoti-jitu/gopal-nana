@@ -48,7 +48,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="bg-white p-2.5 rounded-lg inline-block w-56 shadow-sm">
               <Image
-                src=https://res.cloudinary.com/bctl2gxd/image/upload/v1788686259/forecast_earthings/med_dd6eece70a2e.jpg
+                src="https://res.cloudinary.com/bctl2gxd/image/upload/v1788686259/forecast_earthings/med_dd6eece70a2e.jpg"
                 alt="Forecast Earthings Pvt. Ltd."
                 width={220}
                 height={50}
